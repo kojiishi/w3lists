@@ -1,0 +1,127 @@
+#!/usr/bin/env python
+# Create thread trees by following in-reply-to links from lists.w3.org, such as
+# http://lists.w3.org/Archives/Public/www-style/2014Apr/
+
+import argparse
+import HTMLParser
+import logging
+import re
+import requests
+from urlparse import urljoin
+import sys
+
+class w3lists(object):
+        def __init__(self):
+                self.messages = {}
+
+        reListItem = re.compile(r'<li><a href="(?P<href>[^"]+)">(?P<subject>[^<]+)</a>')
+
+        def load(self, url, filter =None):
+		logging.info(url)
+                r = requests.get(url)
+                for m in w3lists.reListItem.finditer(r.text):
+                        href = m.group('href')
+			if filter:
+				subject = m.group('subject')
+				if not re.search(filter, subject, re.I):
+					continue
+                        self.addurl(urljoin(url, href))
+
+        def addurl(self, url):
+		m = self.messages.get(url)
+                if m: return m
+                m = w3lists.message(url)
+                m.load()
+                self.messages[m.url] = m
+		return m
+	
+	def linkreplies(self):
+		for m in self.messages.values():
+			while True:
+				parenturl = m.inreplytourl
+				if not parenturl: break
+				parent = self.addurl(parenturl)
+				parent.addreply(m)
+				m = parent
+
+	def dumpreplies(self, output):
+		for m in self.messages.values():
+			if m.inreplyto:
+				logging.debug("inreplyto %s\n\t%s\n\t%s %s %s\n" % (m.inreplyto.url, m.subject, m.date, m.url, m.author))
+				continue
+			output.write("%s\n\t%s %s %s\n" % (m.subject, m.date, m.url, m.author))
+			m.dumpreplies(output)
+
+        class message:
+                def __init__(self, url):
+			self.inreplyto = None
+			self.replies = []
+                        self.url = url
+
+                reid = re.compile(r'<span id="message-id"><dfn>[^<]*</dfn>: &lt;(?P<id>.+)&gt;')
+		refrom = re.compile(r'<meta name="Author" content="(?P<from>[^"]*)" />')
+		redate = re.compile(r'<meta name="Date" content="(?P<date>[-0-9]+)" />')
+		resubject = re.compile(r'<meta name="Subject" content="(?P<subject>[^"]*)" />')
+                reinreplyto = re.compile(r'<a href="(?P<href>[^"]+)"\s+title="[^"]*">In reply to</a>')
+
+                def load(self):
+			logging.info(self.url)
+                        r = requests.get(self.url)
+			if r.status_code != 200:
+				logging.error("%d for %s" % (r.status_code, self.url))
+			elif len(r.history) > 0: # there were auto-redirects
+				self.url = r.url
+                        html = r.text
+                        parser = HTMLParser.HTMLParser()
+                        m = w3lists.message.reid.search(html)
+                        self.id = parser.unescape(m.group('id')) if m else None
+			m = w3lists.message.refrom.search(html)
+			self.author = parser.unescape(m.group('from')) if m else None
+			m = w3lists.message.redate.search(html)
+			self.date = m.group('date') if m else None
+			m = w3lists.message.resubject.search(html)
+			self.subject = parser.unescape(m.group('subject')) if m else None
+                        m = w3lists.message.reinreplyto.search(html)
+                        self.inreplytohref = parser.unescape(m.group('href')) if m else None
+			if not self.id:
+                                logging.error("Response not in expectecd format: " + self.url + "\n" + html)
+                                return
+			logging.debug("%s %s %s %s" % (self.date, self.id, self.subject, self.inreplytohref))
+
+		@property
+		def inreplytourl(self):
+			if self.inreplytohref:
+				return urljoin(self.url, self.inreplytohref)
+			return None
+
+		def addreply(self, reply):
+			if reply.inreplyto:
+				if self.url == reply.inreplyto.url:
+					return
+				raise Exception
+			self.replies.append(reply)
+			reply.inreplyto = self
+	
+		def dumpreplies(self, output, prefix =''):
+			prefix = prefix + "\t"
+			for r in self.replies:
+				output.write("%s%s %s %s\n" % (prefix, r.date, r.url, r.author))
+				if len(r.replies) > 0:
+					r.dumpreplies(output, prefix)
+
+def main():
+	parser = argparse.ArgumentParser(description='lists.w3.org scraper')
+	parser.add_argument('--filter', '-f')
+	parser.add_argument('--debug', '-d', action='store_true')
+	parser.add_argument('--verbose', '-v', action='store_true')
+	parser.add_argument('url', nargs='+')
+	args = parser.parse_args()
+	if args.debug: logging.basicConfig(level=logging.DEBUG)
+	elif args.verbose: logging.basicConfig(level=logging.INFO)
+	l = w3lists()
+	for url in args.url:
+		l.load(url, args.filter)
+	l.linkreplies()
+	l.dumpreplies(sys.stdout)
+
+main()

@@ -11,31 +11,35 @@ from urlparse import urljoin
 import sys
 
 class w3lists(object):
-        def __init__(self):
-                self.messages = {}
+	def __init__(self):
+		self.messages = {}
 
-        reListItem = re.compile(r'<li><a href="(?P<href>[^"]+)">(?P<subject>[^<]+)</a>')
+	reListItem = re.compile(r'<li><a href="(?P<href>[^"]+)">(?P<subject>[^<]+)</a>')
 
-        def load(self, url, filter =None):
+	def load(self, url, filter =None):
 		logging.info(url)
-                r = requests.get(url)
-                for m in w3lists.reListItem.finditer(r.text):
-                        href = m.group('href')
+		r = requests.get(url)
+		for m in w3lists.reListItem.finditer(r.text):
 			if filter:
 				subject = m.group('subject')
 				if not re.search(filter, subject, re.I):
 					continue
-                        self.addurl(urljoin(url, href))
+			href = m.group('href')
+			self.addurl(urljoin(url, href))
 
-        def addurl(self, url):
+	def addurl(self, url):
 		m = self.messages.get(url)
-                if m: return m
-                m = w3lists.message(url)
-                m.load()
-                self.messages[m.url] = m
+		if m: return m
+		m = w3lists.message(url)
+		try:
+			m.load()
+		except Exception as err:
+			logging.error("Failed to load the message:" + url + "\n" + err)
+		self.messages[m.url] = m
 		return m
-	
+
 	def linkreplies(self):
+		logging.debug("Linking replies...")
 		for m in self.messages.values():
 			while True:
 				parenturl = m.inreplytourl
@@ -52,41 +56,43 @@ class w3lists(object):
 			output.write("%s\n\t%s %s %s\n" % (m.subject, m.date, m.url, m.author))
 			m.dumpreplies(output)
 
-        class message:
-                def __init__(self, url):
+	class message:
+		def __init__(self, url):
 			self.inreplyto = None
 			self.replies = []
-                        self.url = url
+			self.url = url
 
-                reid = re.compile(r'<span id="message-id"><dfn>[^<]*</dfn>: &lt;(?P<id>.+)&gt;')
+		reid = re.compile(r'<span id="message-id"><dfn>[^<]*</dfn>: &lt;(?P<id>.+)&gt;')
 		refrom = re.compile(r'<meta name="Author" content="(?P<from>[^"]*)" />')
 		redate = re.compile(r'<meta name="Date" content="(?P<date>[-0-9]+)" />')
 		resubject = re.compile(r'<meta name="Subject" content="(?P<subject>[^"]*)" />')
-                reinreplyto = re.compile(r'<a href="(?P<href>[^"]+)"\s+title="[^"]*">In reply to</a>')
+		reinreplyto = re.compile(r'<a href="(?P<href>[^"]+)"\s+title="[^"]*">In reply to</a>')
 
-                def load(self):
+		def load(self):
 			logging.info(self.url)
-                        r = requests.get(self.url)
-			if r.status_code != 200:
-				logging.error("%d for %s" % (r.status_code, self.url))
+			r = requests.get(self.url)
+			self.status_code = r.status_code
+			if self.status_code != 200:
+				logging.error("HTTP Status %d: %s" % (self.status_code, self.url))
 			elif len(r.history) > 0: # there were auto-redirects
 				self.url = r.url
-                        html = r.text
-                        parser = HTMLParser.HTMLParser()
-                        m = w3lists.message.reid.search(html)
-                        self.id = parser.unescape(m.group('id')) if m else None
+			html = r.text
+			parser = HTMLParser.HTMLParser()
+			m = w3lists.message.reid.search(html)
+			self.id = parser.unescape(m.group('id')) if m else None
 			m = w3lists.message.refrom.search(html)
 			self.author = parser.unescape(m.group('from')) if m else None
 			m = w3lists.message.redate.search(html)
 			self.date = m.group('date') if m else None
 			m = w3lists.message.resubject.search(html)
 			self.subject = parser.unescape(m.group('subject')) if m else None
-                        m = w3lists.message.reinreplyto.search(html)
-                        self.inreplytohref = parser.unescape(m.group('href')) if m else None
-			if not self.id:
-                                logging.error("Response not in expectecd format: " + self.url + "\n" + html)
-                                return
+			m = w3lists.message.reinreplyto.search(html)
+			self.inreplytohref = parser.unescape(m.group('href')) if m else None
 			logging.debug("%s %s %s %s" % (self.date, self.id, self.subject, self.inreplytohref))
+			if not self.id:
+				logging.error("Response not in expected format: " + self.url)
+				logging.debug(html)
+				return
 
 		@property
 		def inreplytourl(self):

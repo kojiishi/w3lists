@@ -128,10 +128,17 @@ class w3lists(object):
 			self.dump_replies(output)
 
 		def dump_oneline(self, output, indent = 1):
-			prefix = "\t" * indent
-			output.write("%s%s%s %s %s\n" % (prefix,
-				"" if self.status_code == 200 else "Status=%d " % self.status_code,
-				self.date, self.url, self.author))
+			output.write("\t" * indent)
+			if self.status_code != 200: output.write("Status=%d " % self.status_code)
+			output.write("%s %s" % (self.date, self.url))
+			if self.author:
+				try:
+					output.write(" %s" % self.author)
+				except UnicodeEncodeError:
+					logging.warning("UnicodeEncodeError for the author in %s" % self.url)
+				except Exception as err:
+					logging.warning("Failed to write author %s %s" % (err, type(self.author)))
+			output.write("\n")
 
 		def dump_replies(self, output, indent =1):
 			for r in self.replies:

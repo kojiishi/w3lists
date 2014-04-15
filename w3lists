@@ -34,7 +34,7 @@ class w3lists(object):
 		try:
 			m.load()
 		except Exception as err:
-			logging.error("Failed to load the message:" + url + "\n" + err)
+			logging.error("Failed to load the message: %s\n%s" % (url, err))
 		self.messages[m.url] = m
 		return m
 
@@ -45,6 +45,7 @@ class w3lists(object):
 				parenturl = m.inreplytourl
 				if not parenturl: break
 				parent = self.addurl(parenturl)
+				if not parent.subject: parent.subject = m.subject
 				parent.addreply(m)
 				m = parent
 
@@ -53,13 +54,19 @@ class w3lists(object):
 			if m.inreplyto:
 				logging.debug("inreplyto %s\n\t%s\n\t%s %s %s\n" % (m.inreplyto.url, m.subject, m.date, m.url, m.author))
 				continue
-			output.write("%s\n\t%s %s %s\n" % (m.subject, m.date, m.url, m.author))
+			output.write("%s\n" % (m.subject))
+			m.dump_oneline(output, "\t")
 			m.dumpreplies(output)
 
 	class message:
 		def __init__(self, url):
+			self.author = None
+			self.date = None
 			self.inreplyto = None
+			self.inreplytohref = None
 			self.replies = []
+			self.subject = None
+			self.status_code = 0
 			self.url = url
 
 		reid = re.compile(r'<span id="message-id"><dfn>[^<]*</dfn>: &lt;(?P<id>.+)&gt;')
@@ -107,11 +114,16 @@ class w3lists(object):
 				raise Exception
 			self.replies.append(reply)
 			reply.inreplyto = self
+		
+		def dump_oneline(self, output, prefix =''):
+			output.write("%s%s%s %s %s\n" % (prefix,
+				"" if self.status_code == 200 else "Status=%d " % self.status_code,
+				self.date, self.url, self.author))
 	
 		def dumpreplies(self, output, prefix =''):
 			prefix = prefix + "\t"
 			for r in self.replies:
-				output.write("%s%s %s %s\n" % (prefix, r.date, r.url, r.author))
+				r.dump_oneline(output, prefix)
 				if len(r.replies) > 0:
 					r.dumpreplies(output, prefix)
 

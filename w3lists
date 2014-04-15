@@ -33,6 +33,9 @@ class w3lists(object):
 		m = w3lists.message(url)
 		try:
 			m.load()
+			if url != m.url:
+				redirected = self.messages.get(m.url)
+				if redirected: return redirected
 		except Exception as err:
 			logging.error("Failed to load the message: %s\n%s" % (url, err))
 		self.messages[m.url] = m
@@ -49,14 +52,12 @@ class w3lists(object):
 				parent.addreply(m)
 				m = parent
 
-	def dumpreplies(self, output):
+	def dump_reply_tree(self, output):
 		for m in self.messages.values():
 			if m.inreplyto:
 				logging.debug("inreplyto %s\n\t%s\n\t%s %s %s\n" % (m.inreplyto.url, m.subject, m.date, m.url, m.author))
 				continue
-			output.write("%s\n" % (m.subject))
-			m.dump_oneline(output, "\t")
-			m.dumpreplies(output)
+			m.dump_reply_tree(output)
 
 	class message:
 		def __init__(self, url):
@@ -108,24 +109,38 @@ class w3lists(object):
 			return None
 
 		def addreply(self, reply):
+			if self == reply.inreplyto:
+				return
 			if reply.inreplyto:
 				if self.url == reply.inreplyto.url:
 					return
+				logging.error("inreplyto already set to different object")
 				raise Exception
+			for r in self.replies:
+				if r.url == reply.url:
+					logging.warning("different inreplyto but in replies")
+					return
 			self.replies.append(reply)
 			reply.inreplyto = self
-		
-		def dump_oneline(self, output, prefix =''):
+
+		def dump_reply_tree(self, output):
+			output.write("%s\n" % (self.subject))
+			self.dump_oneline(output)
+			self.dump_replies(output)
+
+		def dump_oneline(self, output, indent = 1):
+			prefix = "\t" * indent
 			output.write("%s%s%s %s %s\n" % (prefix,
 				"" if self.status_code == 200 else "Status=%d " % self.status_code,
 				self.date, self.url, self.author))
-	
-		def dumpreplies(self, output, prefix =''):
-			prefix = prefix + "\t"
+
+		def dump_replies(self, output, indent =1):
 			for r in self.replies:
-				r.dump_oneline(output, prefix)
-				if len(r.replies) > 0:
-					r.dumpreplies(output, prefix)
+				r.dump_oneline(output, indent)
+				indent += 1
+			for r in reversed(self.replies):
+				indent -= 1
+				r.dump_replies(output, indent)
 
 def main():
 	parser = argparse.ArgumentParser(description='lists.w3.org scraper')
@@ -140,6 +155,6 @@ def main():
 	for url in args.url:
 		l.load(url, args.filter)
 	l.linkreplies()
-	l.dumpreplies(sys.stdout)
+	l.dump_reply_tree(sys.stdout)
 
 main()

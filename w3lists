@@ -130,7 +130,7 @@ class w3lists(object):
 		def dump_oneline(self, output, indent = 1):
 			output.write("\t" * indent)
 			if self.status_code != 200: output.write("Status=%d " % self.status_code)
-			output.write("%s %s" % (self.date, self.url))
+			output.write("%s %s" % (self.url, self.date))
 			if self.author:
 				try:
 					output.write(" %s" % self.author)

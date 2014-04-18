@@ -1,9 +1,9 @@
 w3lists
 =======
 
-Scrape http://lists.w3.org/ to create a threaded tree.
+Scrape http://lists.w3.org/ to create a threaded-tree.
 
-* Can include multiple periods.
+* Can scrape multiple periods/pages to build one thread-tree.
 * Can follow in-reply-to even when the e-mails it replied to is not in the scraping targets.
 
 ## Prerequisite

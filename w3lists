@@ -2,13 +2,16 @@
 # Create thread trees by following in-reply-to links from lists.w3.org, such as
 # http://lists.w3.org/Archives/Public/www-style/2014Apr/
 import argparse
-import HTMLParser
+import io
 import logging
 from operator import attrgetter
 import re
 import requests
+import string
+import traceback
 from urlparse import urljoin
 import sys
+from xml.etree import ElementTree as ET
 
 class w3lists(object):
 	def __init__(self):
@@ -25,19 +28,19 @@ class w3lists(object):
 				if not re.search(filter, subject, re.I):
 					continue
 			href = m.group('href')
-			self.addurl(urljoin(url, href))
+			self.addurl(urljoin(url, href), subject)
 
-	def addurl(self, url):
+	def addurl(self, url, subject =None):
 		m = self.messages.get(url)
 		if m: return m
-		m = w3lists.message(url)
+		m = w3lists.message(url, subject)
 		try:
 			m.load()
 			if url != m.url:
 				redirected = self.messages.get(m.url)
 				if redirected: return redirected
 		except Exception as err:
-			logging.error("Failed to load the message: %s\n%s" % (url, err))
+			logging.error("Failed to load the message: %s\n%s" % (url, traceback.format_exc()))
 		self.messages[m.url] = m
 		return m
 
@@ -59,42 +62,45 @@ class w3lists(object):
 			m.dump_reply_tree(output)
 
 	class message:
-		def __init__(self, url):
+		def __init__(self, url, subject =None):
+			self.url = url
 			self.author = None
 			self.date = None
 			self.inreplyto = None
 			self.inreplytohref = None
 			self.replies = []
-			self.subject = None
+			self.subject = subject
 			self.status_code = 0
-			self.url = url
 
-		reid = re.compile(r'<span id="message-id"><dfn>[^<]*</dfn>: &lt;(?P<id>.+)&gt;')
-		refrom = re.compile(r'<meta name="Author" content="(?P<from>[^"]*)" />')
-		redate = re.compile(r'<meta name="Date" content="(?P<date>[-0-9]+)" />')
-		resubject = re.compile(r'<meta name="Subject" content="(?P<subject>[^"]*)" />')
-		reinreplyto = re.compile(r'<a href="(?P<href>[^"]+)"\s+title="[^"]*">In reply to</a>')
+		re_angle_bracket = re.compile(r'<([^>]*)>')
 
 		def load(self):
 			logging.info(self.url)
+			# requests.get(url, streaming=true) and ET.parse(r.raw) will reslut r.status_code=0, so use BytesIO instead
 			r = requests.get(self.url)
 			self.status_code = r.status_code
+			et = ET.parse(io.BytesIO(r.content))
 			if self.status_code != 200:
 				logging.error("HTTP Status %d: %s" % (self.status_code, self.url))
 			elif len(r.history) > 0: # there were auto-redirects
 				self.url = r.url
-			html = r.text
-			parser = HTMLParser.HTMLParser()
-			m = w3lists.message.reid.search(html)
-			self.id = parser.unescape(m.group('id')) if m else None
-			m = w3lists.message.refrom.search(html)
-			self.author = parser.unescape(m.group('from')) if m else None
-			m = w3lists.message.redate.search(html)
-			self.date = m.group('date') if m else None
-			m = w3lists.message.resubject.search(html)
-			self.subject = parser.unescape(m.group('subject')) if m else None
-			m = w3lists.message.reinreplyto.search(html)
-			self.inreplytohref = parser.unescape(m.group('href')) if m else None
+			e = et.find('.//{http://www.w3.org/1999/xhtml}span[@id="message-id"]')
+			if e is not None:
+				m = w3lists.message.re_angle_bracket.search(string.join(e.itertext()))
+				if m:
+					self.id = m.group(1)
+			e = et.find('.//{http://www.w3.org/1999/xhtml}meta[@name="Author"]')
+			if e is not None:
+				self.author = e.get('content')
+			e = et.find('.//{http://www.w3.org/1999/xhtml}meta[@name="Date"]')
+			if e is not None:
+				self.date = e.get('content')
+			e = et.find('.//{http://www.w3.org/1999/xhtml}meta[@name="Subject"]')
+			if e is not None:
+				self.subject = e.get('content')
+			for e in et.iter('{http://www.w3.org/1999/xhtml}a'):
+				if e.text == 'In reply to':
+					self.inreplytohref = e.get('href')
 			logging.debug("%s %s %s %s" % (self.date, self.id, self.subject, self.inreplytohref))
 			if not self.id:
 				logging.error("Response not in expected format: " + self.url)

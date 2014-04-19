@@ -3,13 +3,13 @@ w3lists
 
 Scrape http://lists.w3.org/ to create a threaded-tree.
 
-* Can scrape multiple periods/pages to build one thread-tree.
-* Can follow in-reply-to even when the e-mails it replied to is not in the scraping targets.
+* Can build one thread-tree from multiple periods/pages
+* Can follow in-reply-to even when they are not in the scraping targets.
 
 ## Prerequisite
 
 * Python 2.7
-* `pip install requests` (Mac may need `sudo pip install requests`)
+* `sudo pip install requests`
 
 ## EXAMPLE
 
@@ -18,9 +18,9 @@ Scrape http://lists.w3.org/ to create a threaded-tree.
 This command:
 
 1. Scrapes all e-mails from 7 pages; 2013Oct to 2014Apr
-2. Find e-mails of "text" in its subject
-3. Collect original e-mails when collected e-mails are replies
-4. Print thread-tree
+2. Finds e-mails of "text" in its subject
+3. Collects original e-mails when collected e-mails are replies
+4. Prints thread-tree
 
 The output looks like this:
 

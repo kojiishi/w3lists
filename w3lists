@@ -8,11 +8,11 @@ from operator import attrgetter
 import re
 import requests
 import string
-import traceback
 from urlparse import urljoin
 import sys
 #from xml.etree import ElementTree as ET
 from lxml import etree as ET
+logger = logging.getLogger('w3lists')
 
 class w3lists(object):
 	def __init__(self):
@@ -21,7 +21,7 @@ class w3lists(object):
 	reListItem = re.compile(r'<li><a href="(?P<href>[^"]+)">(?P<subject>[^<]+)</a>')
 
 	def load(self, url, filter =None):
-		logging.info(url)
+		logger.info(url)
 		r = requests.get(url)
 		for m in w3lists.reListItem.finditer(r.text):
 			if filter:
@@ -41,12 +41,12 @@ class w3lists(object):
 				redirected = self.messages.get(m.url)
 				if redirected: return redirected
 		except Exception as err:
-			logging.error("Failed to load the message: %s %s\n%s" % (url, err.message, traceback.format_exc()))
+			logger.exception("Failed to load the message: %s %s\n", url, err.message)
 		self.messages[m.url] = m
 		return m
 
 	def linkreplies(self):
-		logging.info("Linking replies...")
+		logger.info("Linking replies...")
 		for m in self.messages.values():
 			while True:
 				parenturl = m.inreplytourl
@@ -58,7 +58,7 @@ class w3lists(object):
 	def dump_reply_tree(self, output):
 		for m in sorted(self.messages.values(), key=attrgetter('date')):
 			if m.inreplyto:
-				logging.debug("inreplyto %s\n\t%s\n\t%s %s %s\n" % (m.inreplyto.url, m.subject, m.date, m.url, m.author))
+				logger.debug("inreplyto %s\n\t%s\n\t%s %s %s\n", m.inreplyto.url, m.subject, m.date, m.url, m.author)
 				continue
 			m.dump_reply_tree(output)
 
@@ -78,21 +78,21 @@ class w3lists(object):
 
 		def load(self):
 			while True:
-				logging.info(self.url)
+				logger.info(self.url)
 				# requests.get(url, streaming=true) and ET.parse(r.raw) will reslut r.status_code=0, so use BytesIO instead
 				r = requests.get(self.url)
 				self.status_code = r.status_code
 				et = ET.parse(io.BytesIO(r.content))
 				if self.status_code == 300: # multiple choices
-					logging.debug("300 detected")
+					logger.debug("300 detected")
 					e = et.find('.//li/a')
 					if e is not None:
 						self.url = e.get('href')
-						logging.debug('300 redirected to %s' % self.url)
+						logger.debug('300 redirected to %s', self.url)
 						continue
 				break
 			if self.status_code != 200:
-				logging.error("HTTP Status %d: %s" % (self.status_code, self.url))
+				logger.error("HTTP Status %d: %s", self.status_code, self.url)
 			elif len(r.history) > 0: # there were auto-redirects
 				self.url = r.url
 			e = et.find('.//{http://www.w3.org/1999/xhtml}span[@id="message-id"]')
@@ -112,10 +112,10 @@ class w3lists(object):
 			for e in et.iter('{http://www.w3.org/1999/xhtml}a'):
 				if e.text == 'In reply to':
 					self.inreplytohref = e.get('href')
-			logging.debug("%s %s %s %s" % (self.date, self.id, self.subject, self.inreplytohref))
+			logger.debug("%s %s %s %s", self.date, self.id, self.subject, self.inreplytohref)
 			if not self.id:
-				logging.error("Response not in expected format: " + self.url)
-				logging.debug(ET.tostring(et))
+				logger.error("Response not in expected format: %s", self.url)
+				logger.debug(ET.tostring(et))
 				return
 
 		@property
@@ -133,7 +133,7 @@ class w3lists(object):
 				assert False, "inreplyto already set to different object"
 			for r in self.replies:
 				if r.url == reply.url:
-					logging.warning("different inreplyto but in replies")
+					logger.warning("different inreplyto but in replies")
 					return
 			self.replies.append(reply)
 			reply.inreplyto = self
@@ -173,6 +173,6 @@ def main():
 		l.load(url, args.filter)
 	l.linkreplies()
 	l.dump_reply_tree(sys.stdout)
-	logging.info("Completed")
+	logger.info("Completed")
 
 main()

@@ -1,5 +1,5 @@
 Re: [css-text] I18N-ISSUE-313: Definition of grapheme clusters
-	Status=300 http://www.w3.org/mid/7C0AF84C6D560544A17DDDEB68A9DFB517C9038D@ex10-mbx-36009.ant.amazon.com None
+	Status=300 http://www.w3.org/mid/7C0AF84C6D560544A17DDDEB68A9DFB517C9038D@ex10-mbx-36009.ant.amazon.com None None
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0630.html 2014-02-21 Richard Ishida (ishida@w3.org)
 [css-text] I18N-ISSUE-322: text-justify: auto should recommend  international typographic accuracy
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0431.html 2014-01-24 Phillips, Addison (addison@lab126.com)
@@ -24,7 +24,7 @@ Replaced elements as U+FFFC for line breaking doesn't seem Web compatible
 		http://lists.w3.org/Archives/Public/www-style/2013Nov/0137.html 2013-11-10 Kang-Hao (Kenny) Lu (kanghaol@oupeng.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0185.html 2013-11-12 Kang-Hao (Kenny) Lu (kanghaol@opera.com)
 Re: Proposal: Minor 'text-transform' property revision
-	Status=404 http://www.w3.org/mid/Proposal: Minor 'text-transform' property revision None
+	Status=404 http://www.w3.org/mid/Proposal: Minor 'text-transform' property revision None None
 	http://lists.w3.org/Archives/Public/www-style/2012Jul/0673.html 2012-07-30 Jens O. Meiert (jens@meiert.com)
 	http://lists.w3.org/Archives/Public/www-style/2012Jul/0694.html 2012-07-31 fantasai (fantasai.lists@inkedblade.net)
 	http://lists.w3.org/Archives/Public/www-style/2012Jul/0711.html 2012-07-31 Jens O. Meiert (jens@meiert.com)
@@ -53,7 +53,7 @@ Re: Proposal: Minor 'text-transform' property revision
 Re: [css-text] feedback on hyphenation
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0562.html 2014-02-18 Alan Stearns (stearns@adobe.com)
 Re: [css3-writing-modes] i18n-ISSUE-167: Example of Bidirectional  Text
-	Status=300 http://www.w3.org/mid/50B3E0B6.3060508@inkedblade.net None
+	Status=300 http://www.w3.org/mid/50B3E0B6.3060508@inkedblade.net None None
 	http://lists.w3.org/Archives/Public/www-style/2014Mar/0533.html 2014-03-24 Richard Ishida (ishida@w3.org)
 Last call for css3-text
 	http://lists.w3.org/Archives/Public/public-digipub-ig/2013Oct/0014.html 2013-10-11 Bert Bos (bert@w3.org)
@@ -64,7 +64,7 @@ Last call for css3-text
 [css-text] Confused about the White Space Processing Details in CSS  Text Module Level 3
 	http://lists.w3.org/Archives/Public/www-style/2013Dec/0057.html 2013-12-04 Jon Ronnenberg (jon.ronnenberg@gmail.com)
 RE: [css3-writing-modes] Summary of Tr in UTR#50 and  'text-orientation'  discussions
-	Status=300 http://www.w3.org/mid/A592E245B36A8949BDB0A302B375FB4E7CC8BAE98D@MAILR001.mail.lan None
+	Status=300 http://www.w3.org/mid/A592E245B36A8949BDB0A302B375FB4E7CC8BAE98D@MAILR001.mail.lan None None
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0224.html 2013-10-04 Rossen Atanassov (Rossen.Atanassov@microsoft.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0230.html 2013-10-06 John Daggett (jdaggett@mozilla.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0232.html 2013-10-06 Koji Ishii (kojiishi@gluesoft.co.jp)
@@ -73,12 +73,12 @@ RE: [css3-writing-modes] Summary of Tr in UTR#50 and  'text-orientation'  discus
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0314.html 2013-10-09 Rossen Atanassov (Rossen.Atanassov@microsoft.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0316.html 2013-10-09 John Daggett (jdaggett@mozilla.com)
 Re: [css3-writing-modes] i18n-ISSUE-279: text-combine-horizontal  & full/half-width characters
-	Status=300 http://www.w3.org/mid/51F905A2.2080103@w3.org None
+	Status=300 http://www.w3.org/mid/51F905A2.2080103@w3.org None None
 	http://lists.w3.org/Archives/Public/www-style/2014Mar/0549.html 2014-03-26 Richard Ishida (ishida@w3.org)
 	http://lists.w3.org/Archives/Public/www-style/2014Mar/0560.html 2014-03-27 John Daggett (jdaggett@mozilla.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Mar/0597.html 2014-03-31 Richard Ishida (ishida@w3.org)
 [css3-writing-modes] inconsistent handling of 'Tr' codepoints in  'text-orientation'
-	Status=404 http://www.w3.org/mid/827898169.8999083.1379661093488.JavaMail.zimbra@mozilla.com None
+	Status=404 http://www.w3.org/mid/827898169.8999083.1379661093488.JavaMail.zimbra@mozilla.com None None
 	http://lists.w3.org/Archives/Public/www-style/2013Sep/0501.html 2013-09-20 John Daggett (jdaggett@mozilla.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Sep/0556.html 2013-09-23 Koji Ishii (kojiishi@gluesoft.co.jp)
 	http://lists.w3.org/Archives/Public/www-style/2013Sep/0575.html 2013-09-24 John Daggett (jdaggett@mozilla.com)
@@ -128,13 +128,13 @@ status of I18N review of CSS Text [I18N-ACTION-273]
 [css-ui] text-overflow: fade ?
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0050.html 2013-10-01 Tab Atkins Jr. (jackalmage@gmail.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0052.html 2013-10-01 Tab Atkins Jr. (jackalmage@gmail.com)
-		http://lists.w3.org/Archives/Public/www-style/2013Oct/0150.html 2013-10-03
+		http://lists.w3.org/Archives/Public/www-style/2013Oct/0150.html 2013-10-03 FranÃ§ois REMY (francois.remy.dev@outlook.com)
 			http://lists.w3.org/Archives/Public/www-style/2013Oct/0175.html 2013-10-03 Rik Cabanier (cabanier@gmail.com)
 			http://lists.w3.org/Archives/Public/www-style/2013Oct/0178.html 2013-10-03 Tab Atkins Jr. (jackalmage@gmail.com)
 			http://lists.w3.org/Archives/Public/www-style/2013Oct/0186.html 2013-10-03 Rik Cabanier (cabanier@gmail.com)
 			http://lists.w3.org/Archives/Public/www-style/2013Oct/0187.html 2013-10-03 Tab Atkins Jr. (jackalmage@gmail.com)
 		http://lists.w3.org/Archives/Public/www-style/2013Oct/0173.html 2013-10-03 Tab Atkins Jr. (jackalmage@gmail.com)
-		http://lists.w3.org/Archives/Public/www-style/2013Oct/0185.html 2013-10-03
+		http://lists.w3.org/Archives/Public/www-style/2013Oct/0185.html 2013-10-03 FranÃ§ois REMY (francois.remy.dev@outlook.com)
 [text-decor-3] matching platform defaults with text-decoration-skip:  auto
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0485.html 2014-02-14 Edward O'Connor (eoconnor@apple.com)
 Re: [CSSWG][css-text-3] CSS3 Text Last Call Working Draft
@@ -162,7 +162,7 @@ Fwd: [css-writing-modes-2] text-combine-horizontal a.k.a. Tate-chu-yoko
 			http://lists.w3.org/Archives/Public/www-style/2013Oct/0411.html 2013-10-15 John Daggett (jdaggett@mozilla.com)
 			http://lists.w3.org/Archives/Public/www-style/2013Oct/0414.html 2013-10-15 Koji Ishii (kojiishi@gluesoft.co.jp)
 		http://lists.w3.org/Archives/Public/www-style/2013Oct/0412.html 2013-10-15 MURATA Makoto (eb2m-mrt@asahi-net.or.jp)
-		http://lists.w3.org/Archives/Public/www-style/2013Oct/0413.html 2013-10-15
+		http://lists.w3.org/Archives/Public/www-style/2013Oct/0413.html 2013-10-15 è£ç¦è Bobby Tung (bobbytung@wanderer.tw)
 		http://lists.w3.org/Archives/Public/www-style/2013Oct/0415.html 2013-10-15 John Daggett (jdaggett@mozilla.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0410.html 2013-10-15 John Daggett (jdaggett@mozilla.com)
 [CSS4-MediaQueries] media feature proposal: display-colors-inverted  (previously from IndieUI User Context)
@@ -182,7 +182,7 @@ Fwd: [css-writing-modes-2] text-combine-horizontal a.k.a. Tate-chu-yoko
 	http://lists.w3.org/Archives/Public/www-style/2014Mar/0486.html 2014-03-20 Jonathan Kew (jfkthame@gmail.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Mar/0501.html 2014-03-21 James Clark (jjc@jclark.com)
 [css3-ui] text-overflow - using line box edge instead of block container
-	http://lists.w3.org/Archives/Public/www-style/2014Feb/0140.html 2014-02-05
+	http://lists.w3.org/Archives/Public/www-style/2014Feb/0140.html 2014-02-05 Tantek Çelik (tantek@cs.stanford.edu)
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0141.html 2014-02-05 Tab Atkins Jr. (jackalmage@gmail.com)
 [css-text] I18N comments on CSS3 Text
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0416.html 2014-01-24 Phillips, Addison (addison@lab126.com)
@@ -200,7 +200,7 @@ CSS Text level 3 LCWD
 	http://lists.w3.org/Archives/Public/www-style/2014Apr/0001.html 2014-04-01 Charles Lamont (charles@gateho.gotadsl.co.uk)
 	http://lists.w3.org/Archives/Public/www-style/2014Apr/0002.html 2014-04-01 Tab Atkins Jr. (jackalmage@gmail.com)
 Re: [css3-break][css3-regions] Fragmented Floats and Block  Formatting  Contexts
-	Status=0 http://www.w3.org/mid/CF05959D.10708%mmaerean@adobe.com None
+	Status=0 http://www.w3.org/mid/CF05959D.10708%mmaerean@adobe.com None None
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0131.html 2014-02-05 Mihai Balan (mibalan@adobe.com)
 [css-text] I18N-ISSUE-321: Naming of "start end"
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0430.html 2014-01-24 Phillips, Addison (addison@lab126.com)
@@ -228,14 +228,14 @@ Re: [css-text] feedback on hyphenation
 [css3-break][css3-regions] Fragmented Floats and Block Formatting  Contexts
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0300.html 2014-01-22 Mihai Maerean (mmaerean@adobe.com)
 Re: [css-ui] text-overflow: ellipsis and user agent tooltips
-	Status=404 http://www.w3.org/mid/[css-ui] text-overflow: ellipsis and user agent tooltips None
+	Status=404 http://www.w3.org/mid/[css-ui] text-overflow: ellipsis and user agent tooltips None None
 	http://lists.w3.org/Archives/Public/www-style/2013Dec/0103.html 2013-11-18 Danny Cochran (danny@ayasdi.com)
 [css-text] I18N-ISSUE-315: Reference to line breaking in KLREQ
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0424.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-text] I18N-ISSUE-317: Line breaking property and value names
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0426.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 Re: [css-text] Arabic letters connecting between elements with    display: inline
-	Status=300 http://www.w3.org/mid/20140223174536459315.432d25d8@xn--mlform-iua.no None
+	Status=300 http://www.w3.org/mid/20140223174536459315.432d25d8@xn--mlform-iua.no None None
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0670.html 2014-02-23 Leif Halvard Silli (xn--mlform-iua@xn--mlform-iua.no)
 [css-text] I18N-ISSUE-319: word-break 'according to usual rules'
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0428.html 2014-01-24 Phillips, Addison (addison@lab126.com)
@@ -257,7 +257,7 @@ CSS Text issues [I18N-ACTION-278]
 [CSSWG] Minutes Seattle F2F Wed 2014-01-29 PM II: Masking, Gradients,  SVG Text Fills
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0609.html 2014-02-20 fantasai (fantasai.lists@inkedblade.net)
 [css-text] Arabic letters connecting between elements with display:  inline
-	Status=404 http://www.w3.org/mid/CA+FsOYbRie6hZZvJs5c_M8q22vKkELGpfvcKCqXmQ9b9+gbdNw@mail.gmail.com None
+	Status=404 http://www.w3.org/mid/CA+FsOYbRie6hZZvJs5c_M8q22vKkELGpfvcKCqXmQ9b9+gbdNw@mail.gmail.com None None
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0302.html 2014-02-07 fantasai (fantasai.lists@inkedblade.net)
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0448.html 2014-02-12 Behdad Esfahbod (behdad@behdad.org)
 		http://lists.w3.org/Archives/Public/www-style/2014Feb/0355.html 2014-02-09 Lina Kemmel (LKEMMEL@il.ibm.com)
@@ -344,7 +344,7 @@ Requesting an extension on reviewing CSS3 Text [I18N-ACTION-271]
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0751.html 2013-10-31 Phillips, Addison (addison@lab126.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0752.html 2013-10-31 fantasai (fantasai.lists@inkedblade.net)
 [css-text][proposal] font-side-bearings: normal | trimmed
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0242.html 2014-01-18
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0242.html 2014-01-18 FranÃ§ois REMY (francois.remy.dev@outlook.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0252.html 2014-01-20 Peter Moulder (pjrm@mail.internode.on.net)
 [css-text-4] Option for 'true' alignment with text-align
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0591.html 2013-10-23 L. David Baron (dbaron@dbaron.org)
@@ -352,18 +352,18 @@ Requesting an extension on reviewing CSS3 Text [I18N-ACTION-271]
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0594.html 2013-10-23 Robert O'Callahan (robert@ocallahan.org)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0602.html 2013-10-24 Brad Kemper (brad.kemper@gmail.com)
 [css-text] feedback on hyphenation
-	http://lists.w3.org/Archives/Public/www-style/2014Feb/0555.html 2014-02-12
+	http://lists.w3.org/Archives/Public/www-style/2014Feb/0555.html 2014-02-12 Håkan Save Hansson (hakan.hansson@edison.se)
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0671.html 2014-02-23 Simon Sapin (simon.sapin@exyr.org)
 		http://lists.w3.org/Archives/Public/www-style/2014Feb/0579.html 2014-02-19 Peter Moulder (pjrm@mail.internode.on.net)
 Re: [css-ui] text-overflow: fade ?
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0197.html 2013-10-04 Brad Kemper (brad.kemper@gmail.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0198.html 2013-10-04 Alan Gresley (alan@css-class.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0214.html 2013-10-04 Brad Kemper (brad.kemper@gmail.com)
-	http://lists.w3.org/Archives/Public/www-style/2013Oct/0215.html 2013-10-04
+	http://lists.w3.org/Archives/Public/www-style/2013Oct/0215.html 2013-10-04 François REMY (francois.remy.dev@outlook.com)
 [css-values] text()
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0617.html 2013-10-26 Jon Rimmer (jon.rimmer@gmail.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0646.html 2013-10-28 Tab Atkins Jr. (jackalmage@gmail.com)
-		http://lists.w3.org/Archives/Public/www-style/2013Oct/0618.html 2013-10-26
+		http://lists.w3.org/Archives/Public/www-style/2013Oct/0618.html 2013-10-26 Håkon Wium Lie (howcome@opera.com)
 		http://lists.w3.org/Archives/Public/www-style/2013Oct/0636.html 2013-10-27 Jon Rimmer (jon.rimmer@gmail.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0647.html 2013-10-28 Simon Sapin (simon.sapin@exyr.org)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0649.html 2013-10-28 Tab Atkins Jr. (jackalmage@gmail.com)

@@ -4,6 +4,7 @@
 import argparse
 import HTMLParser
 import logging
+from operator import attrgetter
 import re
 import requests
 from urlparse import urljoin
@@ -47,12 +48,11 @@ class w3lists(object):
 				parenturl = m.inreplytourl
 				if not parenturl: break
 				parent = self.addurl(parenturl)
-				if not parent.subject: parent.subject = m.subject
 				parent.addreply(m)
 				m = parent
 
 	def dump_reply_tree(self, output):
-		for m in self.messages.values():
+		for m in sorted(self.messages.values(), key=attrgetter('date')):
 			if m.inreplyto:
 				logging.debug("inreplyto %s\n\t%s\n\t%s %s %s\n" % (m.inreplyto.url, m.subject, m.date, m.url, m.author))
 				continue
@@ -120,6 +120,8 @@ class w3lists(object):
 					return
 			self.replies.append(reply)
 			reply.inreplyto = self
+			if not self.subject: self.subject = reply.subject
+			if not self.date: self.date = reply.date
 
 		def dump_reply_tree(self, output):
 			output.write("%s\n" % (self.subject))

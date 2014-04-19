@@ -40,7 +40,7 @@ class w3lists(object):
 				redirected = self.messages.get(m.url)
 				if redirected: return redirected
 		except Exception as err:
-			logging.error("Failed to load the message: %s\n%s" % (url, traceback.format_exc()))
+			logging.error("Failed to load the message: %s %s\n%s" % (url, err.message, traceback.format_exc()))
 		self.messages[m.url] = m
 		return m
 
@@ -66,6 +66,7 @@ class w3lists(object):
 			self.url = url
 			self.author = None
 			self.date = None
+			self.id = None
 			self.inreplyto = None
 			self.inreplytohref = None
 			self.replies = []
@@ -104,7 +105,7 @@ class w3lists(object):
 			logging.debug("%s %s %s %s" % (self.date, self.id, self.subject, self.inreplytohref))
 			if not self.id:
 				logging.error("Response not in expected format: " + self.url)
-				logging.debug(html)
+				logging.debug(ET.dump(et.getroot()))
 				return
 
 		@property

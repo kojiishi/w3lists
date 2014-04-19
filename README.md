@@ -30,3 +30,4 @@ The output looks like this:
   [URL] [date] [author]
   ...
 ```
+You can find an example of output [here](https://raw.githubusercontent.com/kojiishi/w3lists/master/text-2013-10.txt).

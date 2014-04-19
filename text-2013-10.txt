@@ -1,5 +1,3 @@
-Re: [css-text] 'hanging-punctuation' comments
-	http://lists.w3.org/Archives/Public/www-style/2013Nov/0232.html None None
 [css-text-module]Line Breaking for Simple Chinese
 	http://lists.w3.org/Archives/Public/www-style/2013Dec/0038.html None None
 Re: Proposal: Minor 'text-transform' property revision
@@ -173,27 +171,25 @@ Replaced elements as U+FFFC for line breaking doesn't seem Web compatible
 [css-text] 'text-indent' comments
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0154.html 2013-11-11 Kang-Hao (Kenny) Lu (kanghaol@opera.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0186.html 2013-11-12 Koji Ishii (kojiishi@gluesoft.co.jp)
-Re: [css-text] 'hanging-punctuation' comments
-	http://lists.w3.org/Archives/Public/www-style/2013Nov/0199.html 2013-11-12 None
-	http://lists.w3.org/Archives/Public/www-style/2013Nov/0202.html 2013-11-12 MURAKAMI Shinyu (murakami@antenna.co.jp)
 Review of IndieUI User Context
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0182.html 2013-11-12 Tab Atkins Jr. (jackalmage@gmail.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0228.html 2013-11-13 James Craig (jcraig@apple.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0240.html 2013-11-13 Tab Atkins Jr. (jackalmage@gmail.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0245.html 2013-11-14 James Craig (jcraig@apple.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0253.html 2013-11-14 Tab Atkins Jr. (jackalmage@gmail.com)
-Re: [css-text] 'hanging-punctuation' comments
-	http://lists.w3.org/Archives/Public/www-style/2013Nov/0194.html 2013-11-12 None
-	http://lists.w3.org/Archives/Public/www-style/2013Nov/0198.html 2013-11-12 Kang-Hao (Kenny) Lu (kanghaol@opera.com)
 [css-text] 'hanging-punctuation' comments
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0177.html 2013-11-12 Kang-Hao (Kenny) Lu (kanghaol@opera.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0181.html 2013-11-12 Koji Ishii (kojiishi@gluesoft.co.jp)
 		http://lists.w3.org/Archives/Public/www-style/2013Nov/0178.html 2013-11-12 Kang-Hao (Kenny) Lu (kanghaol@opera.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0187.html 2013-11-12 Kang-Hao (Kenny) Lu (kanghaol@opera.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0214.html 2013-11-12 Kang-Hao (Kenny) Lu (kanghaol@oupeng.com)
-Re: [css-text] 'hanging-punctuation' comments
-	http://lists.w3.org/Archives/Public/www-style/2013Nov/0224.html 2013-11-13 None
+		http://lists.w3.org/Archives/Public/www-style/2013Nov/0194.html 2013-11-12 Koji Ishii (kojiishi@gluesoft.co.jp)
+		http://lists.w3.org/Archives/Public/www-style/2013Nov/0198.html 2013-11-12 Kang-Hao (Kenny) Lu (kanghaol@opera.com)
+		http://lists.w3.org/Archives/Public/www-style/2013Nov/0199.html 2013-11-12 Koji Ishii (kojiishi@gluesoft.co.jp)
+		http://lists.w3.org/Archives/Public/www-style/2013Nov/0202.html 2013-11-12 MURAKAMI Shinyu (murakami@antenna.co.jp)
+	http://lists.w3.org/Archives/Public/www-style/2013Nov/0224.html 2013-11-13 Koji Ishii (kojiishi@gluesoft.co.jp)
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0225.html 2013-11-13 Kang-Hao (Kenny) Lu (kanghaol@opera.com)
+	http://lists.w3.org/Archives/Public/www-style/2013Nov/0232.html 2013-11-13 Koji Ishii (kojiishi@gluesoft.co.jp)
 Re: [css-ui] text-overflow: ellipsis and user agent tooltips
 	Status=404 http://www.w3.org/mid/[css-ui] text-overflow: ellipsis and user agent tooltips 2013-11-18 None
 	http://lists.w3.org/Archives/Public/www-style/2013Dec/0103.html 2013-11-18 Danny Cochran (danny@ayasdi.com)

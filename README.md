@@ -9,6 +9,7 @@ Scrape http://lists.w3.org/ to create a threaded-tree.
 ## Prerequisite
 
 * Python 2.7
+* `sudo pip install lxml`
 * `sudo pip install requests`
 
 ## EXAMPLE

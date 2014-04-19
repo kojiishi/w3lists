@@ -11,7 +11,8 @@ import string
 import traceback
 from urlparse import urljoin
 import sys
-from xml.etree import ElementTree as ET
+#from xml.etree import ElementTree as ET
+from lxml import etree as ET
 
 class w3lists(object):
 	def __init__(self):
@@ -105,7 +106,7 @@ class w3lists(object):
 			logging.debug("%s %s %s %s" % (self.date, self.id, self.subject, self.inreplytohref))
 			if not self.id:
 				logging.error("Response not in expected format: " + self.url)
-				logging.debug(ET.dump(et.getroot()))
+				logging.debug(ET.tostring(et))
 				return
 
 		@property

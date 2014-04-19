@@ -46,7 +46,7 @@ class w3lists(object):
 		return m
 
 	def linkreplies(self):
-		logging.debug("Linking replies...")
+		logging.info("Linking replies...")
 		for m in self.messages.values():
 			while True:
 				parenturl = m.inreplytourl
@@ -77,11 +77,20 @@ class w3lists(object):
 		re_angle_bracket = re.compile(r'<([^>]*)>')
 
 		def load(self):
-			logging.info(self.url)
-			# requests.get(url, streaming=true) and ET.parse(r.raw) will reslut r.status_code=0, so use BytesIO instead
-			r = requests.get(self.url)
-			self.status_code = r.status_code
-			et = ET.parse(io.BytesIO(r.content))
+			while True:
+				logging.info(self.url)
+				# requests.get(url, streaming=true) and ET.parse(r.raw) will reslut r.status_code=0, so use BytesIO instead
+				r = requests.get(self.url)
+				self.status_code = r.status_code
+				et = ET.parse(io.BytesIO(r.content))
+				if self.status_code == 300: # multiple choices
+					logging.debug("300 detected")
+					e = et.find('.//li/a')
+					if e is not None:
+						self.url = e.get('href')
+						logging.debug('300 redirected to %s' % self.url)
+						continue
+				break
 			if self.status_code != 200:
 				logging.error("HTTP Status %d: %s" % (self.status_code, self.url))
 			elif len(r.history) > 0: # there were auto-redirects

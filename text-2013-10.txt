@@ -17,6 +17,10 @@ Re: Proposal: Minor 'text-transform' property revision
 		http://lists.w3.org/Archives/Public/www-style/2014Feb/0604.html 2014-02-19 Liam R E Quin (liam@w3.org)
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0629.html 2014-02-21 Richard Ishida (ishida@w3.org)
 		http://lists.w3.org/Archives/Public/www-style/2014Feb/0603.html 2014-02-19 Brian Blakely (anewpage.media@gmail.com)
+[css3-writing-modes] i18n-ISSUE-167: Example of Bidirectional Text
+	http://lists.w3.org/Archives/Public/www-international/2012OctDec/0026.html 2012-10-17 Richard Ishida (ishida@w3.org)
+	http://lists.w3.org/Archives/Public/www-style/2012Nov/0422.html 2012-11-26 fantasai (fantasai.lists@inkedblade.net)
+	http://lists.w3.org/Archives/Public/www-style/2014Mar/0533.html 2014-03-24 Richard Ishida (ishida@w3.org)
 CSS issue: Need fallback alternatives for CSS generated *text* content  containing unicode glyphs
 	http://lists.w3.org/Archives/Public/www-style/2012Nov/0233.html 2012-11-13 James Craig (jcraig@apple.com)
 	http://lists.w3.org/Archives/Public/www-style/2012Nov/0314.html 2012-11-15 Sylvain Galineau (sylvaing@microsoft.com)
@@ -27,6 +31,11 @@ CSS issue: Need fallback alternatives for CSS generated *text* content  containi
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0043.html 2014-02-03 James Craig (jcraig@apple.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0168.html 2014-02-05 Tab Atkins Jr. (jackalmage@gmail.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0169.html 2014-02-05 James Craig (jcraig@apple.com)
+[css3-writing-modes] i18n-ISSUE-279: text-combine-horizontal & full/half-width  characters
+	http://lists.w3.org/Archives/Public/www-style/2013Jul/0703.html 2013-07-31 Richard Ishida (ishida@w3.org)
+	http://lists.w3.org/Archives/Public/www-style/2014Mar/0549.html 2014-03-26 Richard Ishida (ishida@w3.org)
+	http://lists.w3.org/Archives/Public/www-style/2014Mar/0560.html 2014-03-27 John Daggett (jdaggett@mozilla.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Mar/0597.html 2014-03-31 Richard Ishida (ishida@w3.org)
 [css3-writing-modes] inconsistent handling of 'Tr' codepoints in  'text-orientation'
 	Status=404 http://www.w3.org/mid/827898169.8999083.1379661093488.JavaMail.zimbra@mozilla.com 2013-09-20 None
 	http://lists.w3.org/Archives/Public/www-style/2013Sep/0501.html 2013-09-20 John Daggett (jdaggett@mozilla.com)
@@ -72,6 +81,15 @@ Re: [css-text] Clusters for letter spacing in Thai and other complex scripts
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0092.html 2013-10-02 Koji Ishii (kojiishi@gluesoft.co.jp)
 Re: [css3-writing-modes] inconsistent handling of 'Tr' codepoints  in 'text-orientation'
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0294.html 2013-09-27 Ken Lunde (lunde@adobe.com)
+[css3-writing-modes] Summary of Tr in UTR#50 and 'text-orientation'  discussions
+	http://lists.w3.org/Archives/Public/public-i18n-cjk/2013JulSep/0016.html 2013-09-28 Koji Ishii (kojiishi@gluesoft.co.jp)
+	http://lists.w3.org/Archives/Public/www-style/2013Oct/0224.html 2013-10-04 Rossen Atanassov (Rossen.Atanassov@microsoft.com)
+	http://lists.w3.org/Archives/Public/www-style/2013Oct/0230.html 2013-10-06 John Daggett (jdaggett@mozilla.com)
+	http://lists.w3.org/Archives/Public/www-style/2013Oct/0232.html 2013-10-06 Koji Ishii (kojiishi@gluesoft.co.jp)
+	http://lists.w3.org/Archives/Public/www-style/2013Oct/0262.html 2013-10-08 Rossen Atanassov (Rossen.Atanassov@microsoft.com)
+	http://lists.w3.org/Archives/Public/www-style/2013Oct/0267.html 2013-10-08 John Daggett (jdaggett@mozilla.com)
+	http://lists.w3.org/Archives/Public/www-style/2013Oct/0314.html 2013-10-09 Rossen Atanassov (Rossen.Atanassov@microsoft.com)
+	http://lists.w3.org/Archives/Public/www-style/2013Oct/0316.html 2013-10-09 John Daggett (jdaggett@mozilla.com)
 [css-ui] text-overflow: fade ?
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0050.html 2013-10-01 Tab Atkins Jr. (jackalmage@gmail.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0052.html 2013-10-01 Tab Atkins Jr. (jackalmage@gmail.com)
@@ -86,15 +104,6 @@ Re: [css3-writing-modes] inconsistent handling of 'Tr' codepoints  in 'text-orie
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0001.html 2013-10-01 Dael Jackson (daelcss@gmail.com)
 [css-text][css-ui] Overflow and ellipses, some in rtl
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0161.html 2013-10-03 Alan Gresley (alan@css-class.com)
-RE: [css3-writing-modes] Summary of Tr in UTR#50 and  'text-orientation'  discussions
-	Status=300 http://www.w3.org/mid/A592E245B36A8949BDB0A302B375FB4E7CC8BAE98D@MAILR001.mail.lan 2013-10-04 None
-	http://lists.w3.org/Archives/Public/www-style/2013Oct/0224.html 2013-10-04 Rossen Atanassov (Rossen.Atanassov@microsoft.com)
-	http://lists.w3.org/Archives/Public/www-style/2013Oct/0230.html 2013-10-06 John Daggett (jdaggett@mozilla.com)
-	http://lists.w3.org/Archives/Public/www-style/2013Oct/0232.html 2013-10-06 Koji Ishii (kojiishi@gluesoft.co.jp)
-	http://lists.w3.org/Archives/Public/www-style/2013Oct/0262.html 2013-10-08 Rossen Atanassov (Rossen.Atanassov@microsoft.com)
-	http://lists.w3.org/Archives/Public/www-style/2013Oct/0267.html 2013-10-08 John Daggett (jdaggett@mozilla.com)
-	http://lists.w3.org/Archives/Public/www-style/2013Oct/0314.html 2013-10-09 Rossen Atanassov (Rossen.Atanassov@microsoft.com)
-	http://lists.w3.org/Archives/Public/www-style/2013Oct/0316.html 2013-10-09 John Daggett (jdaggett@mozilla.com)
 Re: [css-ui] text-overflow: fade ?
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0197.html 2013-10-04 Brad Kemper (brad.kemper@gmail.com)
 	http://lists.w3.org/Archives/Public/www-style/2013Oct/0198.html 2013-10-04 Alan Gresley (alan@css-class.com)
@@ -262,6 +271,11 @@ CSS Text issues [I18N-ACTION-278]
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0421.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-text] I18N comments on CSS3 Text
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0416.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-313: Definition of grapheme clusters
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0087.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0115.html 2014-01-24 John Cowan (cowan@mercury.ccil.org)
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0116.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Feb/0630.html 2014-02-21 Richard Ishida (ishida@w3.org)
 [css-text] I18N-ISSUE-321: Naming of "start end"
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0430.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-text] I18N-ISSUE-323: Figures 3 to 5
@@ -310,6 +324,18 @@ Re: [css3-break][css3-regions] Fragmented Floats and Block  Formatting  Contexts
 [css-text] Arabic letters connecting between elements with display:  inline
 	Status=404 http://www.w3.org/mid/CA+FsOYbRie6hZZvJs5c_M8q22vKkELGpfvcKCqXmQ9b9+gbdNw@mail.gmail.com 2014-02-07 None
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0302.html 2014-02-07 fantasai (fantasai.lists@inkedblade.net)
+		http://lists.w3.org/Archives/Public/www-international/2014JanMar/0212.html 2014-02-07 fantasai (fantasai.lists@inkedblade.net)
+		http://lists.w3.org/Archives/Public/www-international/2014JanMar/0228.html 2014-02-12 Behdad Esfahbod (behdad@behdad.org)
+		http://lists.w3.org/Archives/Public/www-international/2014JanMar/0230.html 2014-02-13 Aharon (Vladimir) Lanin (aharon@google.com)
+		http://lists.w3.org/Archives/Public/www-international/2014JanMar/0231.html 2014-02-13 Behdad Esfahbod (behdad@behdad.org)
+		http://lists.w3.org/Archives/Public/www-international/2014JanMar/0244.html 2014-02-17 Aharon (Vladimir) Lanin (aharon@google.com)
+		http://lists.w3.org/Archives/Public/www-international/2014JanMar/0246.html 2014-02-18 Aharon (Vladimir) Lanin (aharon@google.com)
+		http://lists.w3.org/Archives/Public/www-international/2014JanMar/0260.html 2014-02-23 Lina Kemmel (LKEMMEL@il.ibm.com)
+		http://lists.w3.org/Archives/Public/www-international/2014JanMar/0261.html 2014-02-23 Aharon (Vladimir) Lanin (aharon@google.com)
+		http://lists.w3.org/Archives/Public/www-international/2014JanMar/0262.html 2014-02-23 Lina Kemmel (LKEMMEL@il.ibm.com)
+		http://lists.w3.org/Archives/Public/www-international/2014JanMar/0263.html 2014-02-23 Aharon (Vladimir) Lanin (aharon@google.com)
+		http://lists.w3.org/Archives/Public/www-international/2014JanMar/0264.html 2014-02-23 Leif Halvard Silli (xn--mlform-iua@xn--mlform-iua.no)
+		http://lists.w3.org/Archives/Public/www-style/2014Feb/0670.html 2014-02-23 Leif Halvard Silli (xn--mlform-iua@xn--mlform-iua.no)
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0448.html 2014-02-12 Behdad Esfahbod (behdad@behdad.org)
 		http://lists.w3.org/Archives/Public/www-style/2014Feb/0355.html 2014-02-09 Lina Kemmel (LKEMMEL@il.ibm.com)
 			http://lists.w3.org/Archives/Public/www-style/2014Feb/0379.html 2014-02-10 Aharon (Vladimir) Lanin (aharon@google.com)
@@ -336,12 +362,6 @@ Re: Proposal: Minor 'text-transform' property revision
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0613.html 2014-02-20 fantasai (fantasai.lists@inkedblade.net)
 [CSSWG] Minutes Seattle F2F Wed 2014-01-29 PM II: Masking, Gradients,  SVG Text Fills
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0609.html 2014-02-20 fantasai (fantasai.lists@inkedblade.net)
-Re: [css-text] I18N-ISSUE-313: Definition of grapheme clusters
-	Status=300 http://www.w3.org/mid/7C0AF84C6D560544A17DDDEB68A9DFB517C9038D@ex10-mbx-36009.ant.amazon.com 2014-02-21 None
-	http://lists.w3.org/Archives/Public/www-style/2014Feb/0630.html 2014-02-21 Richard Ishida (ishida@w3.org)
-Re: [css-text] Arabic letters connecting between elements with    display: inline
-	Status=300 http://www.w3.org/mid/20140223174536459315.432d25d8@xn--mlform-iua.no 2014-02-23 None
-	http://lists.w3.org/Archives/Public/www-style/2014Feb/0670.html 2014-02-23 Leif Halvard Silli (xn--mlform-iua@xn--mlform-iua.no)
 Re: [css-text] feedback on hyphenation
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0739.html 2014-02-26 James Clark (jjc@jclark.com)
 Re: [css-text] feedback on hyphenation
@@ -352,14 +372,6 @@ Re: [css-text] feedback on hyphenation
 		http://lists.w3.org/Archives/Public/www-style/2014Mar/0490.html 2014-03-20 Zack Weinberg (zackw@panix.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Mar/0486.html 2014-03-20 Jonathan Kew (jfkthame@gmail.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Mar/0501.html 2014-03-21 James Clark (jjc@jclark.com)
-Re: [css3-writing-modes] i18n-ISSUE-167: Example of Bidirectional  Text
-	Status=300 http://www.w3.org/mid/50B3E0B6.3060508@inkedblade.net 2014-03-24 None
-	http://lists.w3.org/Archives/Public/www-style/2014Mar/0533.html 2014-03-24 Richard Ishida (ishida@w3.org)
-Re: [css3-writing-modes] i18n-ISSUE-279: text-combine-horizontal  & full/half-width characters
-	Status=300 http://www.w3.org/mid/51F905A2.2080103@w3.org 2014-03-26 None
-	http://lists.w3.org/Archives/Public/www-style/2014Mar/0549.html 2014-03-26 Richard Ishida (ishida@w3.org)
-	http://lists.w3.org/Archives/Public/www-style/2014Mar/0560.html 2014-03-27 John Daggett (jdaggett@mozilla.com)
-	http://lists.w3.org/Archives/Public/www-style/2014Mar/0597.html 2014-03-31 Richard Ishida (ishida@w3.org)
 [css-text] example 16 named entity
 	http://lists.w3.org/Archives/Public/www-style/2014Mar/0583.html 2014-03-29 Philippe Wittenbergh (ph.wittenbergh@l-c-n.com)
 CSS Text level 3 LCWD

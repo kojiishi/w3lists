@@ -204,10 +204,10 @@ Re: [css-ui] text-overflow: ellipsis and user agent tooltips
 	http://lists.w3.org/Archives/Public/www-style/2013Dec/0103.html 2013-11-18 Danny Cochran (danny@ayasdi.com)
 [css3-text] anonymous inline of collapsible white space are *not*  always removed
 	http://lists.w3.org/Archives/Public/www-style/2013Dec/0104.html 2013-11-19 Slobber Chopz (slobberchopz@gmail.com)
-[CSSWG] Minutes TPAC F2F 2013-11-12 Tues IV: Fill and Stroke on Text  Decorations, Background and Borders 3, CSS3-text
-	http://lists.w3.org/Archives/Public/www-style/2013Nov/0373.html 2013-11-21 Dael Jackson (daelcss@gmail.com)
 [CSSWG] Minutes TPAC F2F 2013-11-12 Tues II: Text Module, Charter,  Styling Left vs Right Pages
 	http://lists.w3.org/Archives/Public/www-style/2013Nov/0371.html 2013-11-21 Dael Jackson (daelcss@gmail.com)
+[CSSWG] Minutes TPAC F2F 2013-11-12 Tues IV: Fill and Stroke on Text  Decorations, Background and Borders 3, CSS3-text
+	http://lists.w3.org/Archives/Public/www-style/2013Nov/0373.html 2013-11-21 Dael Jackson (daelcss@gmail.com)
 [css-text] Confused about the White Space Processing Details in CSS  Text Module Level 3
 	http://lists.w3.org/Archives/Public/www-style/2013Dec/0057.html 2013-12-04 Jon Ronnenberg (jon.ronnenberg@gmail.com)
 status of I18N review of CSS Text [I18N-ACTION-273]
@@ -221,6 +221,7 @@ status of I18N review of CSS Text [I18N-ACTION-273]
 [css-text][proposal] font-side-bearings: normal | trimmed
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0242.html 2014-01-18 François REMY (francois.remy.dev@outlook.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0252.html 2014-01-20 Peter Moulder (pjrm@mail.internode.on.net)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0267.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
 [css3-text] The secret behind word-wrap/overflow-wrap?
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0258.html 2014-01-21 Jens O. Meiert (jens@meiert.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0264.html 2014-01-21 Karl Dubost (karl@la-grange.net)
@@ -237,18 +238,36 @@ status of I18N review of CSS Text [I18N-ACTION-273]
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0425.html 2014-02-12 fantasai (fantasai.lists@inkedblade.net)
 CSS Text issues [I18N-ACTION-278]
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0360.html 2014-01-23 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-322: text-justify: auto should recommend  international typographic accuracy
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0431.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-318: Tibetan line breaking & justification  background info
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0427.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-309: Haphazard use of term 'character'
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0418.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-334: 'letter-spacing' and Indic
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0438.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0453.html 2014-01-24 Peter Moulder (pjrm@mail.internode.on.net)
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0454.html 2014-01-25 Peter Moulder (pjrm@mail.internode.on.net)
-[css-text] I18N-ISSUE-335: health warnings for when language not  known
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0443.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-320: Example 6
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0429.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0444.html 2014-01-24 Najib Tounsi (ntounsi@gmail.com)
+[css-text] I18N-ISSUE-308: Definition of 'grapheme cluster'
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0417.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0268.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0281.html 2014-04-20 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0287.html 2014-04-21 James Clark (jjc@jclark.com)
+[css-text] I18N-ISSUE-331: No kashida style or relationship to  styles 'distribute' and 'inter-word'
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0435.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-323: Figures 3 to 5
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0099.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0274.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0282.html 2014-04-20 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-332: Lack of complete kashida description
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0103.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0278.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+[css-text] I18N-ISSUE-315: Reference to line breaking in KLREQ
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0424.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-333: 'letter-spacing' and Arabic
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0104.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0113.html 2014-01-24 Najib Tounsi (ntounsi@gmail.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0323.html 2014-04-23 Koji Ishii (kojiishi@gluesoft.co.jp)
+[css-text] I18N-ISSUE-337: line terminator handling
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0440.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-332: Lack of complete kashida description
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0436.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-312: (editorial) distribute keyword  description
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0086.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0270.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
 [css-text] I18N-ISSUE-330: Tasmeem example not clear
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0434.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-text] I18N-ISSUE-313: Definition of grapheme clusters
@@ -256,40 +275,56 @@ CSS Text issues [I18N-ACTION-278]
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0447.html 2014-01-24 John Cowan (cowan@mercury.ccil.org)
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0449.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0455.html 2014-01-25 Peter Moulder (pjrm@mail.internode.on.net)
-[css-text] I18N-ISSUE-320: Example 6
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0429.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0444.html 2014-01-24 Najib Tounsi (ntounsi@gmail.com)
-[css-text] I18N-ISSUE-308: Definition of 'grapheme cluster'
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0417.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-333: 'letter-spacing' and Arabic
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0437.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0446.html 2014-01-24 Najib Tounsi (ntounsi@gmail.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0467.html 2014-01-25 Jonathan Kew (jfkthame@googlemail.com)
+[css-text] I18N-ISSUE-309: Haphazard use of term 'character'
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0418.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-337: line terminator handling
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0107.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0335.html 2014-04-23 Koji Ishii (kojiishi@gluesoft.co.jp)
+[css-text] I18N-ISSUE-322: text-justify: auto should recommend  international typographic accuracy
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0431.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-316: Line breaking defaults
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0425.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-text] I18N-ISSUE-331: No kashida style or relationship to  styles 'distribute' and 'inter-word'
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0435.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-314: Line breaking and ruby
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0423.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0102.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0277.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0283.html 2014-04-20 Phillips, Addison (addison@lab126.com)
+		http://lists.w3.org/Archives/Public/www-style/2014Apr/0280.html 2014-04-20 John Cowan (cowan@mercury.ccil.org)
+		http://lists.w3.org/Archives/Public/www-style/2014Apr/0285.html 2014-04-21 Martin J. Dürst (duerst@it.aoyama.ac.jp)
+		http://lists.w3.org/Archives/Public/www-style/2014Apr/0286.html 2014-04-21 Phillips, Addison (addison@lab126.com)
+		http://lists.w3.org/Archives/Public/www-style/2014Apr/0317.html 2014-04-23 Koji Ishii (kojiishi@gluesoft.co.jp)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0321.html 2014-04-23 Koji Ishii (kojiishi@gluesoft.co.jp)
+		http://lists.w3.org/Archives/Public/www-style/2014Apr/0341.html 2014-04-23 James Clark (jjc@jclark.com)
+[css-text] I18N-ISSUE-325: expansion opportunity -> justification  opportunity
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0442.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-text] I18N-ISSUE-338: UAX14 reference (editorial)
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0441.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0108.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0351.html 2014-04-23 Koji Ishii (kojiishi@gluesoft.co.jp)
+[css-text] I18N-ISSUE-318: Tibetan line breaking & justification  background info
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0427.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-334: 'letter-spacing' and Indic
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0438.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0453.html 2014-01-24 Peter Moulder (pjrm@mail.internode.on.net)
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0454.html 2014-01-25 Peter Moulder (pjrm@mail.internode.on.net)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0327.html 2014-04-23 Koji Ishii (kojiishi@gluesoft.co.jp)
+[css-text] I18N-ISSUE-316: Line breaking defaults
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0091.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0271.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
 [css-text] I18N-ISSUE-312: (editorial) distribute keyword  description
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0421.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N comments on CSS3 Text
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0416.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-text] I18N-ISSUE-313: Definition of grapheme clusters
 	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0087.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0115.html 2014-01-24 John Cowan (cowan@mercury.ccil.org)
 	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0116.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0630.html 2014-02-21 Richard Ishida (ishida@w3.org)
+[css-text] I18N-ISSUE-317: Line breaking property and value names
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0092.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0272.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
 [css-text] I18N-ISSUE-321: Naming of "start end"
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0430.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-323: Figures 3 to 5
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0432.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-333: 'letter-spacing' and Arabic
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0437.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0446.html 2014-01-24 Najib Tounsi (ntounsi@gmail.com)
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0467.html 2014-01-25 Jonathan Kew (jfkthame@googlemail.com)
-[css-text] I18N-ISSUE-315: Reference to line breaking in KLREQ
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0424.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-317: Line breaking property and value names
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0426.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-319: word-break 'according to usual rules'
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0428.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-text] I18N-ISSUE-310: (editorial) consistency in refering to  Unicode web site
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0419.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-text] I18N-ISSUE-311: Clarity of Arabic hyphenation example
@@ -297,15 +332,40 @@ CSS Text issues [I18N-ACTION-278]
 [css-text] I18N-ISSUE-336: no local definition of "anonymous  inline" (editorial)
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0439.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-text] I18N-ISSUE-324: distribute -> inter-character
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0433.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-332: Lack of complete kashida description
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0436.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-316: Line breaking defaults
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0425.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0100.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0275.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+[css-text] I18N-ISSUE-319: word-break 'according to usual rules'
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0094.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0273.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
 [css-text] I18N-ISSUE-325: expansion opportunity -> justification  opportunity
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0442.html 2014-01-24 Phillips, Addison (addison@lab126.com)
-[css-text] I18N-ISSUE-337: line terminator handling
-	http://lists.w3.org/Archives/Public/www-style/2014Jan/0440.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0109.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0276.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+[css-text] I18N-ISSUE-335: health warnings for when language not  known
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0443.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-310: (editorial) consistency in refering to  Unicode web site
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0084.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0269.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+[css-text] I18N-ISSUE-314: Line breaking and ruby
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0423.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-335: health warnings for when language not  known
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0110.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0328.html 2014-04-23 Koji Ishii (kojiishi@gluesoft.co.jp)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0339.html 2014-04-23 Mark Davis ☕️ (mark@macchiato.com)
+[css-text] I18N-ISSUE-338: UAX14 reference (editorial)
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0441.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N comments on CSS3 Text
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0416.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-323: Figures 3 to 5
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0432.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-317: Line breaking property and value names
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0426.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-336: no local definition of "anonymous  inline" (editorial)
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0106.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0330.html 2014-04-23 Koji Ishii (kojiishi@gluesoft.co.jp)
+[css-text] I18N-ISSUE-324: distribute -> inter-character
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0433.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-319: word-break 'according to usual rules'
+	http://lists.w3.org/Archives/Public/www-style/2014Jan/0428.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-flexbox] Clarifying the new "Resolving Flexible Lengths" text:  un-frozen items and free-space recomputation
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0616.html 2014-01-30 Daniel Holbert (dholbert@mozilla.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Feb/0166.html 2014-02-05 Tab Atkins Jr. (jackalmage@gmail.com)
@@ -374,8 +434,37 @@ Re: [css-text] feedback on hyphenation
 	http://lists.w3.org/Archives/Public/www-style/2014Mar/0501.html 2014-03-21 James Clark (jjc@jclark.com)
 [css-text] example 16 named entity
 	http://lists.w3.org/Archives/Public/www-style/2014Mar/0583.html 2014-03-29 Philippe Wittenbergh (ph.wittenbergh@l-c-n.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0355.html 2014-04-23 Koji Ishii (kojiishi@gluesoft.co.jp)
 CSS Text level 3 LCWD
 	http://lists.w3.org/Archives/Public/www-style/2014Apr/0001.html 2014-04-01 Charles Lamont (charles@gateho.gotadsl.co.uk)
 	http://lists.w3.org/Archives/Public/www-style/2014Apr/0002.html 2014-04-01 Tab Atkins Jr. (jackalmage@gmail.com)
 [css-text] What line-break loose allow (but otherwise forbid) means  when the base rules forbid?
 	http://lists.w3.org/Archives/Public/www-style/2014Apr/0110.html 2014-04-11 Koji Ishii (kojiishi@gluesoft.co.jp)
+Re: [css-text] comments from DPub IG (Fwd)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0259.html 2014-04-19 Koji Ishii (kojiishi@gluesoft.co.jp)
+Re: [css-text] comments from DPub IG (Fwd)
+	Status=404 http://www.w3.org/mid/[css-text] comments from DPub IG (Fwd) 2014-04-19 None
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0258.html 2014-04-19 Koji Ishii (kojiishi@gluesoft.co.jp)
+Re: [css-text] comments from DPub IG (Fwd)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0264.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0265.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+Re: [css-text] comments from DPub IG (Fwd)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0266.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+Re: [css-text] comments from DPub IG (Fwd)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0262.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+Re: [css-text] comments from DPub IG (Fwd)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0263.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+Re: [css-text][css3-fonts][proposal] font-side-bearings: normal |    trimmed
+	Status=404 http://www.w3.org/mid/5b52297c24f9b5d3ecdd98c3633fde45.squirrel@server2.pcs-net.com 2014-04-20 None
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0279.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
+[css-text] Characters per line
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0288.html 2014-04-21 Tab Atkins Jr. (jackalmage@gmail.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0289.html 2014-04-21 Tab Atkins Jr. (jackalmage@gmail.com)
+		http://lists.w3.org/Archives/Public/www-style/2014Apr/0290.html 2014-04-21 Zack Weinberg (zackw@panix.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0375.html 2014-04-22 mus@designtoday.co.uk (mus@designtoday.co.uk)
+Re: [css-text] Characters per line
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0306.html 2014-04-22 Tab Atkins Jr. (jackalmage@gmail.com)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0307.html 2014-04-22 mus@designtoday.co.uk (mus@designtoday.co.uk)
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0309.html 2014-04-22 Tab Atkins Jr. (jackalmage@gmail.com)
+Re: [css-text] I18N-ISSUE-333: 'letter-spacing' and Arabic
+	http://lists.w3.org/Archives/Public/www-style/2014Apr/0324.html 2014-04-23 Koji Ishii (kojiishi@gluesoft.co.jp)

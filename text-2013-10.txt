@@ -330,6 +330,7 @@ CSS Text issues [I18N-ACTION-278]
 	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0091.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Apr/0271.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
 	http://lists.w3.org/Archives/Public/www-style/2014May/0059.html 2014-05-08 Koji Ishii (kojiishi@gluesoft.co.jp)
+	http://lists.w3.org/Archives/Public/www-style/2014May/0090.html 2014-05-10 Koji Ishii (kojiishi@gluesoft.co.jp)
 [css-text] I18N-ISSUE-312: (editorial) distribute keyword  description
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0421.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 [css-text] I18N-ISSUE-313: Definition of grapheme clusters
@@ -365,6 +366,9 @@ CSS Text issues [I18N-ACTION-278]
 	http://lists.w3.org/Archives/Public/www-style/2014Apr/0276.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)
 [css-text] I18N-ISSUE-335: health warnings for when language not  known
 	http://lists.w3.org/Archives/Public/www-style/2014Jan/0443.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+[css-text] I18N-ISSUE-318: Tibetan line breaking & justification  background info
+	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0093.html 2014-01-24 Phillips, Addison (addison@lab126.com)
+	http://lists.w3.org/Archives/Public/www-style/2014May/0091.html 2014-05-10 Koji Ishii (kojiishi@gluesoft.co.jp)
 [css-text] I18N-ISSUE-310: (editorial) consistency in refering to  Unicode web site
 	http://lists.w3.org/Archives/Public/www-international/2014JanMar/0084.html 2014-01-24 Phillips, Addison (addison@lab126.com)
 	http://lists.w3.org/Archives/Public/www-style/2014Apr/0269.html 2014-04-20 Koji Ishii (kojiishi@gluesoft.co.jp)

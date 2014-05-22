@@ -1,178 +1,163 @@
 #!/usr/bin/env python
 # Create thread trees by following in-reply-to links from lists.w3.org, such as
 # http://lists.w3.org/Archives/Public/www-style/2014Apr/
+# https://lists.w3.org/Archives/Public/${list}/mboxes/${year}-${month}.mbx
 import argparse
+import contextlib
+import datetime
+import email
+import glob
 import io
+import json
 import logging
+import mailbox
 from operator import attrgetter
+import os
 import re
-import requests
-import string
-from urlparse import urljoin
+import rfc822
+import urllib2
 import sys
-#from xml.etree import ElementTree as ET
-from lxml import etree as ET
+#from xml.etree import ElementTree
+from lxml import etree
 logger = logging.getLogger('w3lists')
 logging.basicConfig()
 
 class w3lists(object):
 	def __init__(self):
-		self.messages = {}
+		self.message_by_id = {}
+		self.normalized_url = {}
 
-	reListItem = re.compile(r'<li><a href="(?P<href>[^"]+)">(?P<subject>[^<]+)</a>')
+	def load_mbox(self, path, filter =None):
+		path = os.path.expanduser(path)
+		if os.path.isdir(path):
+			for file in glob.glob(os.path.join(path, '*.mbx')):
+				self.load_mbox(file, filter)
+			return
+		logger.info('Loading %s', path)
+		mbox = mailbox.mbox(path)
+		for mbmsg in mbox:
+			m = w3lists.message(mbmsg)
+			if filter and not filter(m):
+				continue
+			m.archived_at = self.normalize_url(m.archived_at)
+			self.message_by_id[m.id] = m
 
-	def load(self, url, filter =None):
-		logger.info(url)
-		r = requests.get(url)
-		for m in w3lists.reListItem.finditer(r.text):
-			if filter:
-				subject = m.group('subject')
-				if not re.search(filter, subject, re.I):
-					continue
-			href = m.group('href')
-			self.addurl(urljoin(url, href), subject)
-
-	def addurl(self, url, subject =None):
-		m = self.messages.get(url)
-		if m: return m
-		m = w3lists.message(url, subject)
+	def normalize_url(self, url):
+		normalized = self.normalized_url.get(url)
+		if normalized:
+			return normalized
+		normalized = self._normalize_url(url)
+		if not normalized:
+			return url
+		self.normalized_url[url] = normalized
+		return normalized
+	
+	def _normalize_url(self, url):
 		try:
-			m.load()
-			if url != m.url:
-				redirected = self.messages.get(m.url)
-				if redirected: return redirected
-		except Exception as err:
-			logger.exception("Failed to load the message: %s %s\n", url, err.message)
-		self.messages[m.url] = m
-		return m
+			with contextlib.closing(urllib2.urlopen(url)) as response:
+				redir = response.geturl()
+			if redir != url:
+				logger.debug('Normalized %s from %s', redir, url)
+				return redir
+			return None
+		except urllib2.HTTPError as err:
+			if err.code == 300:
+				logger.debug('300 from %s', url)
+				t = etree.parse(err)
+				etree.tostring(t)
+				hrefs = map(lambda a: a.attrib['href'], t.findall('.//li/a'))
+				for href in hrefs:
+					if 'www-style' in href:
+						return href
+				return hrefs[0]
+			logging.error('HTTP %d for %s', err.code, url)
+			return None
+#		except:
+#			err = sys.exc_info()[0]
+#			logging.error('%s: %s', self.archived_at, err)
 
-	def linkreplies(self):
+	def link_replies(self):
 		logger.info("Linking replies...")
-		for m in self.messages.values():
-			while True:
-				parenturl = m.inreplytourl
-				if not parenturl: break
-				parent = self.addurl(parenturl)
-				parent.addreply(m)
-				m = parent
+		for m in self.message_by_id.itervalues():
+			m.link_in_reply_to(self.message_by_id)
 
 	def dump_reply_tree(self, output):
-		for m in sorted(self.messages.values(), key=attrgetter('date')):
-			if m.inreplyto:
-				logger.debug("inreplyto %s\n\t%s\n\t%s %s %s\n", m.inreplyto.url, m.subject, m.date, m.url, m.author)
-				continue
+		output.write('<!DOCTYPE html>\n'
+			'<html>\n'
+			'<head>\n'
+			'<meta charset="utf-8">\n'
+			'</head>\n'
+			'<body>\n'
+			'<ol>\n')
+		for m in sorted(filter(lambda m: m.in_reply_to is None, self.message_by_id.itervalues()), key=attrgetter('date')):
 			m.dump_reply_tree(output)
+		output.write('</ol></body></html>\n')
 
-	class message:
-		def __init__(self, url, subject =None):
-			self.url = url
-			self.author = None
-			self.date = None
-			self.id = None
-			self.inreplyto = None
-			self.inreplytohref = None
+	class message(object):
+		def __init__(self, mbmsg):
+			self.archived_at = self.strip_angle_brackets(mbmsg['archived-at'])
+			self.date = datetime.datetime.fromtimestamp(rfc822.mktime_tz(rfc822.parsedate_tz(mbmsg['date'])))
+			self.from_address = self.decode_header_to_unicode(mbmsg['from'])
+			self.id = mbmsg['message-id']
+			self.in_reply_to_id = mbmsg['in-reply-to']
+			self.subject = mbmsg['subject']
+			self.in_reply_to = None
 			self.replies = []
-			self.subject = subject
-			self.status_code = 0
+
+		@staticmethod
+		def decode_header_to_unicode(text):
+			decoded = email.header.decode_header(text)
+			return u''.join([unicode(text, charset or 'ascii') for text, charset in decoded])
 
 		re_angle_bracket = re.compile(r'<([^>]*)>')
 
-		def load(self):
-			while True:
-				logger.info(self.url)
-				# requests.get(url, streaming=true) and ET.parse(r.raw) will reslut r.status_code=0, so use BytesIO instead
-				r = requests.get(self.url)
-				self.status_code = r.status_code
-				et = ET.parse(io.BytesIO(r.content))
-				if self.status_code == 300: # multiple choices
-					logger.debug("300 detected")
-					e = et.find('.//li/a')
-					if e is not None:
-						self.url = e.get('href')
-						logger.debug('300 redirected to %s', self.url)
-						continue
-				break
-			if self.status_code != 200:
-				logger.error("HTTP Status %d: %s", self.status_code, self.url)
-			elif len(r.history) > 0: # there were auto-redirects
-				self.url = r.url
-			e = et.find('.//{http://www.w3.org/1999/xhtml}span[@id="message-id"]')
-			if e is not None:
-				m = w3lists.message.re_angle_bracket.search(string.join(e.itertext()))
-				if m:
-					self.id = m.group(1)
-			e = et.find('.//{http://www.w3.org/1999/xhtml}meta[@name="Author"]')
-			if e is not None:
-				self.author = e.get('content')
-			e = et.find('.//{http://www.w3.org/1999/xhtml}meta[@name="Date"]')
-			if e is not None:
-				self.date = e.get('content')
-			e = et.find('.//{http://www.w3.org/1999/xhtml}meta[@name="Subject"]')
-			if e is not None:
-				self.subject = e.get('content')
-			for e in et.iter('{http://www.w3.org/1999/xhtml}a'):
-				if e.text == 'In reply to':
-					self.inreplytohref = e.get('href')
-			logger.debug("%s %s %s %s", self.date, self.id, self.subject, self.inreplytohref)
-			if not self.id:
-				logger.error("Response not in expected format: %s", self.url)
-				logger.debug(ET.tostring(et))
-				return
+		def strip_angle_brackets(self, text):
+			match = self.re_angle_bracket.search(text)
+			if match:
+				return match.group(1)
+			return text
 
-		@property
-		def inreplytourl(self):
-			if self.inreplytohref:
-				return urljoin(self.url, self.inreplytohref)
-			return None
-
-		def addreply(self, reply):
-			if self == reply.inreplyto:
+		def link_in_reply_to(self, message_by_id):
+			assert not self.in_reply_to
+			in_reply_to_id = self.in_reply_to_id
+			if not in_reply_to_id:
 				return
-			if reply.inreplyto:
-				if self.url == reply.inreplyto.url:
-					return
-				assert False, "inreplyto already set to different object"
-			for r in self.replies:
-				if r.url == reply.url:
-					logger.warning("different inreplyto but in replies")
-					return
-			self.replies.append(reply)
-			reply.inreplyto = self
-			if not self.subject: self.subject = reply.subject
-			if not self.date: self.date = reply.date
+			in_reply_to = message_by_id.get(in_reply_to_id)
+			if not in_reply_to:
+				logger.warn('Message id %s not loaded', in_reply_to_id)
+				return
+			self.in_reply_to = in_reply_to
+			in_reply_to.replies.append(self)
 
 		def dump_reply_tree(self, output):
-			output.write("%s\n" % (self.subject))
-			self.dump_oneline(output)
-			self.dump_replies(output)
-
-		def dump_oneline(self, output, indent = 1):
-			output.write("\t" * indent)
-			if self.status_code != 200: output.write("Status=%d " % self.status_code)
-			output.write("%s %s %s\n" % (self.url, self.date, self.author))
-
-		def dump_replies(self, output, indent =1):
-			for r in self.replies:
-				r.dump_oneline(output, indent)
-				indent += 1
-			for r in reversed(self.replies):
-				indent -= 1
-				r.dump_replies(output, indent)
+			output.write('<li><a href="%s">%s</a> %s %s' % (self.archived_at, self.subject, self.from_address, self.date))
+			if self.replies:
+#				output.write(' %d replies' % len(self.replies))
+				output.write('\n<ol>\n')
+				for r in sorted(self.replies, key=attrgetter('date')):
+					r.dump_reply_tree(output)
+				output.write('</ol>\n')
+			output.write('</li>\n')
 
 def main():
 	reload(sys).setdefaultencoding('utf-8')
 	parser = argparse.ArgumentParser(description='lists.w3.org scraper')
 	parser.add_argument('--filter', '-f')
-	parser.add_argument('--debug', '-d', action='store_true')
-	parser.add_argument('--verbose', '-v', action='store_true')
-	parser.add_argument('url', nargs='+')
+	parser.add_argument('--mbox', '-m', default='~/Downloads')
+	parser.add_argument('--redir', '-r', default='redir.json')
+	parser.add_argument('--verbose', '-v', action='append_const', const=1)
+#	parser.add_argument('url', nargs='*')
 	args = parser.parse_args()
-	if args.debug: logging.basicConfig(level=logging.DEBUG)
-	elif args.verbose: logging.basicConfig(level=logging.INFO)
+	if args.verbose:
+		logging.basicConfig(level=logging.INFO if len(args.verbose) == 1 else logging.DEBUG)
 	l = w3lists()
-	for url in args.url:
-		l.load(url, args.filter)
-	l.linkreplies()
+	if os.path.exists(args.redir):
+		with open(args.redir, 'r') as f:
+			l.normalized_url = json.load(f)
+	l.load_mbox(args.mbox, (lambda m: re.search(args.filter, m.subject, re.I)) if args.filter else None)
+	l.link_replies()
+	with open(args.redir, 'w') as f:
+		json.dump(l.normalized_url, f, indent=0)
 	l.dump_reply_tree(sys.stdout)
 	logger.info("Completed")
 

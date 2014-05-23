@@ -17,6 +17,7 @@ import re
 import rfc822
 import urllib2
 import sys
+from xml.sax.saxutils import escape
 #from xml.etree import ElementTree
 from lxml import etree
 logger = logging.getLogger('w3lists')
@@ -92,22 +93,22 @@ class w3lists(object):
 			m.link_in_reply_to(self.message_by_id)
 
 	def dump_reply_tree(self, output):
-		output.write('<!DOCTYPE html>\n'
-			'<html>\n'
-			'<head>\n'
-			'<meta charset="utf-8">\n'
-			'</head>\n'
-			'<body>\n'
-			'<ol>\n')
+		output.write('''<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+<ol>''')
 		for m in sorted(filter(lambda m: m.in_reply_to is None, self.message_by_id.itervalues()), key=attrgetter('date')):
 			m.dump_reply_tree(output)
 		output.write('</ol></body></html>\n')
 
 	class message(object):
 		def __init__(self, mbmsg):
-			self.archived_at = self.strip_angle_brackets(mbmsg['archived-at'])
+			self.archived_at = strip_angle_brackets(mbmsg['archived-at'])
 			self.date = datetime.datetime.fromtimestamp(rfc822.mktime_tz(rfc822.parsedate_tz(mbmsg['date'])))
-			self.from_address = self.decode_header_to_unicode(mbmsg['from'])
+			(self.from_display, self.from_address) = rfc822.parseaddr(decode_header_to_unicode(mbmsg['from']))
 			self.id = email.Utils.parseaddr(mbmsg['message-id'])[1]
 			self.in_reply_to_id = mbmsg['in-reply-to']
 			if self.in_reply_to_id:
@@ -115,19 +116,6 @@ class w3lists(object):
 			self.subject = mbmsg['subject']
 			self.in_reply_to = None
 			self.replies = []
-
-		@staticmethod
-		def decode_header_to_unicode(text):
-			decoded = email.header.decode_header(text)
-			return u''.join([unicode(text, charset or 'ascii') for text, charset in decoded])
-
-		re_angle_bracket = re.compile(r'<([^>]*)>')
-
-		def strip_angle_brackets(self, text):
-			match = self.re_angle_bracket.search(text)
-			if match:
-				return match.group(1)
-			return text
 
 		def link_in_reply_to(self, message_by_id):
 			assert not self.in_reply_to
@@ -142,14 +130,30 @@ class w3lists(object):
 			in_reply_to.replies.append(self)
 
 		def dump_reply_tree(self, output):
-			output.write('<li><a href="%s">%s</a> %s %s' % (self.archived_at, self.subject, self.from_address, self.date))
+			output.write('\n<li><a href="{href}">{subject}</a> {from_display} {date}'.format(
+				date=self.date,
+				from_display=escape(self.from_display),
+				href=self.archived_at,
+				subject=escape(self.subject)))
 			if self.replies:
 #				output.write(' %d replies' % len(self.replies))
-				output.write('\n<ol>\n')
+				output.write('<ol>')
 				for r in sorted(self.replies, key=attrgetter('date')):
 					r.dump_reply_tree(output)
-				output.write('</ol>\n')
-			output.write('</li>\n')
+				output.write('</ol>')
+			output.write('</li>')
+
+def decode_header_to_unicode(text):
+	decoded = email.header.decode_header(text)
+	return u''.join([unicode(text, charset or 'ascii') for text, charset in decoded])
+
+re_angle_bracket = re.compile(r'<([^>]*)>')
+
+def strip_angle_brackets(text):
+	match = re_angle_bracket.search(text)
+	if match:
+		return match.group(1)
+	return text
 
 def main():
 	reload(sys).setdefaultencoding('utf-8')

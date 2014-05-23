@@ -98,7 +98,6 @@ class w3lists(object):
 			self.archived_at = self.strip_angle_brackets(mbmsg['archived-at'])
 			self.date = datetime.datetime.fromtimestamp(rfc822.mktime_tz(rfc822.parsedate_tz(mbmsg['date'])))
 			self.from_address = self.decode_header_to_unicode(mbmsg['from'])
-			logger.info('From=%s', mbmsg['from'])
 			self.id = email.Utils.parseaddr(mbmsg['message-id'])[1]
 			self.in_reply_to_id = mbmsg['in-reply-to']
 			if self.in_reply_to_id:

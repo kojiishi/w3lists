@@ -2,6 +2,7 @@
 # Create thread trees by following in-reply-to links from lists.w3.org, such as
 # http://lists.w3.org/Archives/Public/www-style/2014Apr/
 # https://lists.w3.org/Archives/Public/${list}/mboxes/${year}-${month}.mbx
+# https://lists.w3.org/Archives/Public/www-style/mboxes/2014-05.mbx
 import argparse
 import contextlib
 import datetime
@@ -57,35 +58,16 @@ class w3lists(object):
 		normalized = self.normalized_url.get(url)
 		if normalized:
 			return normalized
-		normalized = self._normalize_url(url)
-		if not normalized:
-			return url
-		self.normalized_url[url] = normalized
-		return normalized
-	
-	def _normalize_url(self, url):
 		try:
-			with contextlib.closing(urllib2.urlopen(url)) as response:
-				redir = response.geturl()
-			if redir != url:
-				logger.debug('Normalized %s from %s', redir, url)
-				return redir
-			return None
+			redir = get_redirect_url(url)
+			if not redir:
+				return url
 		except urllib2.HTTPError as err:
-			if err.code == 300:
-				logger.debug('300 from %s', url)
-				t = etree.parse(err)
-				etree.tostring(t)
-				hrefs = map(lambda a: a.attrib['href'], t.findall('.//li/a'))
-				for href in hrefs:
-					if 'www-style' in href:
-						return href
-				return hrefs[0]
-			logger.error('HTTP %d for %s', err.code, url)
-			return None
-#		except:
-#			err = sys.exc_info()[0]
-#			logger.error('%s: %s', self.archived_at, err)
+			if err.code == 404:
+				return url
+			raise
+		self.normalized_url[url] = redir
+		return redir
 
 	def link_replies(self):
 		logger.info("Linking replies...")
@@ -142,6 +124,30 @@ class w3lists(object):
 					r.dump_reply_tree(output)
 				output.write('</ol>')
 			output.write('</li>')
+
+def get_redirect_url(url):
+	try:
+		with contextlib.closing(urllib2.urlopen(url)) as response:
+			redir = response.geturl()
+		if redir != url:
+			logger.debug('Normalized %s from %s', redir, url)
+			return redir
+		return None
+	except urllib2.HTTPError as err:
+		if err.code == 300:
+			logger.debug('300 from %s', url)
+			t = etree.parse(err)
+			etree.tostring(t)
+			hrefs = map(lambda a: a.attrib['href'], t.findall('.//li/a'))
+			for href in hrefs:
+				if 'www-style' in href:
+					return href
+			return hrefs[0]
+		logger.error('HTTP %d for %s', err.code, url)
+		raise
+#	except:
+#		err = sys.exc_info()[0]
+#		logger.error('%s: %s', self.archived_at, err)
 
 def decode_header_to_unicode(text):
 	decoded = email.header.decode_header(text)

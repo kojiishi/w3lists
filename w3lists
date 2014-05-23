@@ -42,6 +42,16 @@ class w3lists(object):
 			m.archived_at = self.normalize_url(m.archived_at)
 			self.message_by_id[m.id] = m
 
+	def load_urls(self, path):
+		logger.info('Loading URLs from %s', path)
+		with open(path, 'r') as f:
+			self.normalized_url = json.load(f)
+
+	def save_urls(self, path):
+		logger.info('Saving URLs to %s', path)
+		with open(path, 'w') as f:
+			json.dump(self.normalized_url, f, indent=0)
+
 	def normalize_url(self, url):
 		normalized = self.normalized_url.get(url)
 		if normalized:
@@ -70,11 +80,11 @@ class w3lists(object):
 					if 'www-style' in href:
 						return href
 				return hrefs[0]
-			logging.error('HTTP %d for %s', err.code, url)
+			logger.error('HTTP %d for %s', err.code, url)
 			return None
 #		except:
 #			err = sys.exc_info()[0]
-#			logging.error('%s: %s', self.archived_at, err)
+#			logger.error('%s: %s', self.archived_at, err)
 
 	def link_replies(self):
 		logger.info("Linking replies...")
@@ -151,15 +161,16 @@ def main():
 #	parser.add_argument('url', nargs='*')
 	args = parser.parse_args()
 	if args.verbose:
-		logging.basicConfig(level=logging.INFO if len(args.verbose) == 1 else logging.DEBUG)
+		logger.setLevel(level=logging.INFO if len(args.verbose) == 1 else logging.DEBUG)
 	l = w3lists()
-	if os.path.exists(args.redir):
-		with open(args.redir, 'r') as f:
-			l.normalized_url = json.load(f)
+	if args.redir:
+		args.redir = os.path.expanduser(os.path.join(args.mbox, args.redir))
+		if os.path.exists(args.redir):
+			l.load_urls(args.redir)
 	l.load_mbox(args.mbox, (lambda m: re.search(args.filter, m.subject, re.I)) if args.filter else None)
 	l.link_replies()
-	with open(args.redir, 'w') as f:
-		json.dump(l.normalized_url, f, indent=0)
+	if args.redir:
+		l.save_urls(args.redir)
 	l.dump_reply_tree(sys.stdout)
 	logger.info("Completed")
 

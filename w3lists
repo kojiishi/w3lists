@@ -73,6 +73,39 @@ class w3lists(object):
 		logger.info("Linking replies...")
 		for m in self.message_by_id.itervalues():
 			m.link_in_reply_to(self.message_by_id)
+		self.link_replies_by_subject()
+
+	def link_replies_by_subject(self):
+		logger.info("Linking replies using subjects...")
+		message_by_subject = {}
+		re_subject_prefix = re.compile('^[a-zA-Z]{2,3}:\s*')
+		def normalize_subject(subject):
+			subject = re_subject_prefix.sub('', subject)
+			subject = subject.replace(' ', '')
+			return subject
+		for m in self.message_by_id.itervalues():
+			subject = normalize_subject(m.subject)
+			thread = message_by_subject.get(subject)
+			if thread:
+				thread.append(m)
+			else:
+				message_by_subject[subject] = [m]
+		for m in filter(lambda m: not m.in_reply_to, self.message_by_id.itervalues()):
+			subject = m.subject
+			if not re_subject_prefix.match(subject):
+				continue
+			subject = normalize_subject(subject)
+			thread = message_by_subject.get(subject)
+			assert thread
+			earliers = filter(lambda mm: mm.date < m.date, thread)
+			if not earliers:
+				logger.info('Link maybe-by-subject candidates not found: %s from %s on %s', m.subject, m.from_display, m.date)
+				continue
+			in_reply_to = first(reversed(sorted(earliers, key=attrgetter('date'))))
+			assert normalize_subject(m.subject) == normalize_subject(in_reply_to.subject)
+			logger.info('Linking maybe-by-subject: %s from %s on %s', m.subject, m.from_display, m.date)
+			in_reply_to.add_reply(m)
+			assert m.in_reply_to
 
 	def dump_reply_tree(self, output):
 		output.write('''<!DOCTYPE html>
@@ -108,8 +141,12 @@ class w3lists(object):
 			if not in_reply_to:
 				logger.warn('Message id %s not loaded', in_reply_to_id)
 				return
-			self.in_reply_to = in_reply_to
-			in_reply_to.replies.append(self)
+			in_reply_to.add_reply(self)
+
+		def add_reply(self, reply):
+			assert not reply.in_reply_to
+			self.replies.append(reply)
+			reply.in_reply_to = self
 
 		def dump_reply_tree(self, output):
 			output.write('\n<li><a href="{href}">{subject}</a> {from_display} {date}'.format(
@@ -160,6 +197,12 @@ def strip_angle_brackets(text):
 	if match:
 		return match.group(1)
 	return text
+
+def first(iterable, default=None):
+	if iterable:
+		for item in iterable:
+			return item
+	return default
 
 def main():
 	reload(sys).setdefaultencoding('utf-8')

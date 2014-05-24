@@ -134,6 +134,12 @@ class w3lists(object):
 	class message(object):
 		def __init__(self, mbmsg):
 			self.archived_at = strip_angle_brackets(mbmsg['archived-at'])
+			# Protect from a bug where archive-at can contain display names such as:
+			# http://www.w3.org/mid/896B66B790C04549AD3BF12412E175E39D2A944772@hst-mail01.sdbit.local(sfid-20140212_141727_830873_C9E64B6E)
+			if self.archived_at and self.archived_at.endswith(')'):
+				i = self.archived_at.rfind('(')
+				if i > 0:
+					self.archived_at = self.archived_at[0:i]
 			self.date = datetime.datetime.fromtimestamp(rfc822.mktime_tz(rfc822.parsedate_tz(mbmsg['date'])))
 			(self.from_display, self.from_address) = rfc822.parseaddr(decode_header_to_unicode(mbmsg['from']))
 			self.id = email.Utils.parseaddr(mbmsg['message-id'])[1]

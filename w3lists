@@ -351,7 +351,7 @@ def main():
 	reload(sys).setdefaultencoding('utf-8')
 	parser = argparse.ArgumentParser(description='lists.w3.org scraper')
 	parser.add_argument('--doc')
-	parser.add_argument('--filter', '-f')
+	parser.add_argument('--filter', '-f', action='append')
 	parser.add_argument('--mbox', '-m', default='~/Downloads')
 	parser.add_argument('--redir', '-r', default='redir.json')
 	parser.add_argument('--verbose', '-v', action='append_const', const=1)
@@ -364,7 +364,12 @@ def main():
 		args.redir = os.path.expanduser(os.path.join(args.mbox, args.redir))
 		if os.path.exists(args.redir):
 			list.load_urls(args.redir)
-	list.load_mbox(args.mbox, (lambda m: re.search(args.filter, m.subject, re.I)) if args.filter else None)
+	if args.filter:
+		e = re.compile('|'.join(args.filter), re.I)
+		filter = lambda m: e.search(m.subject)
+	else:
+		filter = None
+	list.load_mbox(args.mbox, filter)
 	list.link_replies()
 	if args.redir:
 		list.save_urls(args.redir)

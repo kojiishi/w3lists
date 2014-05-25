@@ -355,6 +355,7 @@ def main():
 	reload(sys).setdefaultencoding('utf-8')
 	parser = argparse.ArgumentParser(description='lists.w3.org scraper')
 	parser.add_argument('--doc')
+	parser.add_argument('--exclude', '-x', action='append')
 	parser.add_argument('--filter', '-f', action='append')
 	parser.add_argument('--mbox', '-m', default='~/Downloads')
 	parser.add_argument('--redir', '-r', default='redir.json')
@@ -369,8 +370,12 @@ def main():
 		if os.path.exists(args.redir):
 			list.load_urls(args.redir)
 	if args.filter:
-		e = re.compile('|'.join(args.filter), re.I)
-		filter = lambda m: e.search(m.subject)
+		f = re.compile('|'.join(args.filter), re.I)
+		if args.exclude:
+			x = re.compile('|'.join(args.exclude), re.I)
+			filter = lambda m: f.search(m.subject) and not x.search(m.subject)
+		else:
+			filter = lambda m: f.search(m.subject)
 	else:
 		filter = None
 	list.load_mbox(args.mbox, filter)

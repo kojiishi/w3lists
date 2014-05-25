@@ -1,1 +1,1 @@
-$(dirname $BASH_SOURCE)/w3lists -f '\[css-text]' --doc issues-lc-2013.txt $*
+$(dirname $BASH_SOURCE)/w3lists -f '\[css-text]' -x '\[css-text-decor' --doc issues-lc-2013.txt $*

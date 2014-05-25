@@ -262,19 +262,23 @@ class W3DoC(object):
 					self.status = key
 					self.resolution = value
 				else:
-					logger.error('Unknown key "%s" ignored' % key)
+					raise Exception('Unknown key "%s" ignored' % key)
 			return True
 
 		def save(self, file):
 			file.write(u'----\nIssue %d.\n' % self.id)
-			file.write(u'Summary:  %s\n' % self.summary)
-			file.write(u'From:     %s\n' % self.from_name)
+			for t in self.get_key_value_pairs():
+				if not t[1]:
+					file.write(unicode(t[0] + ':\n'))
+				else:
+					file.write(unicode((t[0] + ':').ljust(10) + t[1] + '\n'))
+
+		def get_key_value_pairs(self):
+			yield ('Summary', self.summary)
+			yield ('From', self.from_name)
 			for t in self.thread:
-				file.write(unicode((t[0] + ':').ljust(10) + t[1] + '\n'))
-			if self.resolution:
-				file.write(unicode((self.status + ':').ljust(10) + self.resolution + '\n'))
-			else:
-				file.write(u'%s:\n' % self.status)
+				yield (t[0], t[1])
+			yield (self.status, self.resolution)
 
 		def link_messages(self, list):
 			for t in self.thread:

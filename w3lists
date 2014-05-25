@@ -24,7 +24,7 @@ from lxml import etree
 logger = logging.getLogger('w3lists')
 logging.basicConfig()
 
-class w3lists(object):
+class W3lists(object):
 	def __init__(self):
 		self.message_by_id = {}
 		self._message_by_url = None
@@ -50,7 +50,7 @@ class w3lists(object):
 		logger.info('Loading %s', path)
 		mbox = mailbox.mbox(path)
 		for mbmsg in mbox:
-			m = w3lists.message(mbmsg)
+			m = W3lists.Message(mbmsg)
 			if filter and not filter(m):
 				continue
 			m.archived_at = self.normalize_url(m.archived_at)
@@ -131,7 +131,7 @@ class w3lists(object):
 			m.dump_reply_tree(output)
 		output.write('</ol></body></html>\n')
 
-	class message(object):
+	class Message(object):
 		def __init__(self, mbmsg):
 			self.archived_at = strip_angle_brackets(mbmsg['archived-at'])
 			# Protect from a bug where archive-at can contain display names such as:
@@ -359,7 +359,7 @@ def main():
 	args = parser.parse_args()
 	if args.verbose:
 		logger.setLevel(level=logging.INFO if len(args.verbose) == 1 else logging.DEBUG)
-	list = w3lists()
+	list = W3lists()
 	if args.redir:
 		args.redir = os.path.expanduser(os.path.join(args.mbox, args.redir))
 		if os.path.exists(args.redir):

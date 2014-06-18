@@ -1,10 +1,6 @@
 #!/usr/bin/env python
-# Create thread trees by following in-reply-to links from lists.w3.org, such as
-# http://lists.w3.org/Archives/Public/www-style/2014Apr/
-# https://lists.w3.org/Archives/Public/${list}/mboxes/${year}-${month}.mbx
-# https://lists.w3.org/Archives/Public/www-style/mboxes/2014-05.mbx
 import argparse
-import contextlib
+from contextlib import closing
 import datetime
 import email
 import glob
@@ -16,8 +12,9 @@ from operator import attrgetter
 import os
 import re
 import rfc822
-import urllib2
+import shutil
 import sys
+import urllib2
 from xml.sax.saxutils import escape
 #from xml.etree import ElementTree
 from lxml import etree
@@ -40,6 +37,32 @@ class W3lists(object):
 			for m in self.messages:
 				self._message_by_url[m.archived_at] = m
 		return self._message_by_url.get(url)
+
+	def download_mbox(self, dir, month_index_range, user, password):
+		"""Download mbox files from W3C member server at https://lists.w3.org/Archives/Public/${list}/mboxes/${year}-${month}.mbx"""
+		auth_handler = urllib2.HTTPBasicAuthHandler()
+		auth_handler.add_password('W3CACL', 'https://lists.w3.org/', user, password)
+		opener = urllib2.build_opener(auth_handler)
+		for month_index in month_index_range:
+			filename = '%04d-%02d.mbx' % (month_index / 12, month_index % 12 + 1)
+			logger.info('Downloading %s', filename)
+			url = 'https://lists.w3.org/Archives/Public/www-style/mboxes/' + filename
+			with closing(opener.open(url)) as rs:
+				with open(os.path.join(dir, filename), 'wb') as fp:
+					shutil.copyfileobj(rs, fp)
+
+	def month_index_range(self, dir, year_month =None):
+		today = datetime.date.today()
+		lim_month_index = today.year * 12 + today.month
+		if year_month:
+			(year, month) = (int(s) for s in year_month.split('-'))
+			return range(year * 12 + month - 1, lim_month_index)
+		files = glob.glob(os.path.join(dir, '*.mbx'))
+		if not files:
+			return range(lim_month_index - 1, lim_month_index)
+		filename = last(sorted(os.path.splitext(os.path.basename(f))[0] for f in files))
+		(year, month) = (int(s) for s in filename.split('-'))
+		return range(year * 12 + month - 1, lim_month_index)
 
 	def load_mbox(self, path, filter =None):
 		path = os.path.expanduser(path)
@@ -311,7 +334,7 @@ class W3DoC(object):
 
 def get_redirect_url(url):
 	try:
-		with contextlib.closing(urllib2.urlopen(url)) as response:
+		with closing(urllib2.urlopen(url)) as response:
 			redir = response.geturl()
 		if redir != url:
 			logger.debug('Normalized %s from %s', redir, url)
@@ -351,20 +374,32 @@ def first(iterable, default=None):
 			return item
 	return default
 
+def last(iterable, default=None):
+	if iterable:
+		for item in iterable:
+			default = item
+	return default
+
 def main():
 	reload(sys).setdefaultencoding('utf-8')
-	parser = argparse.ArgumentParser(description='lists.w3.org scraper')
+	parser = argparse.ArgumentParser()
 	parser.add_argument('--doc')
 	parser.add_argument('--exclude', '-x', action='append')
 	parser.add_argument('--filter', '-f', action='append')
 	parser.add_argument('--mbox', '-m', default='~/Downloads')
 	parser.add_argument('--redir', '-r', default='redir.json')
+	parser.add_argument('--user', '-u',)
 	parser.add_argument('--verbose', '-v', action='append_const', const=1)
 #	parser.add_argument('url', nargs='*')
 	args = parser.parse_args()
 	if args.verbose:
 		logger.setLevel(level=logging.INFO if len(args.verbose) == 1 else logging.DEBUG)
+	args.mbox = os.path.expanduser(args.mbox)
 	list = W3lists()
+	if args.user:
+		range = list.month_index_range(args.mbox)
+		(user, password) = args.user.split(':')
+		list.download_mbox(args.mbox, range, user, password)
 	if args.redir:
 		args.redir = os.path.expanduser(os.path.join(args.mbox, args.redir))
 		if os.path.exists(args.redir):

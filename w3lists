@@ -43,26 +43,25 @@ class W3lists(object):
 		auth_handler = urllib2.HTTPBasicAuthHandler()
 		auth_handler.add_password('W3CACL', 'https://lists.w3.org/', user, password)
 		opener = urllib2.build_opener(auth_handler)
-		for month_index in month_index_range:
-			filename = '%04d-%02d.mbx' % (month_index / 12, month_index % 12 + 1)
+		for filename in (self.mbox_filename_from_month_index(i) for i in month_index_range):
 			logger.info('Downloading %s', filename)
 			url = 'https://lists.w3.org/Archives/Public/www-style/mboxes/' + filename
 			with closing(opener.open(url)) as rs:
 				with open(os.path.join(dir, filename), 'wb') as fp:
 					shutil.copyfileobj(rs, fp)
 
-	def month_index_range(self, dir, year_month =None):
-		today = datetime.date.today()
-		lim_month_index = today.year * 12 + today.month
-		if year_month:
-			(year, month) = (int(s) for s in year_month.split('-'))
-			return range(year * 12 + month - 1, lim_month_index)
+	@staticmethod
+	def mbox_filename_from_month_index(month_index):
+		return '%04d-%02d.mbx' % (month_index / 12, month_index % 12 + 1)
+
+	def month_index_min(self, dir):
+		"""Get the month_index of the oldest mbox file to download"""
 		files = glob.glob(os.path.join(dir, '*.mbx'))
 		if not files:
-			return range(lim_month_index - 1, lim_month_index)
+			return None
 		filename = last(sorted(os.path.splitext(os.path.basename(f))[0] for f in files))
 		(year, month) = (int(s) for s in filename.split('-'))
-		return range(year * 12 + month - 1, lim_month_index)
+		return year * 12 + month - 1
 
 	def load_mbox(self, path, filter =None):
 		path = os.path.expanduser(path)
@@ -397,9 +396,14 @@ def main():
 	args.mbox = os.path.expanduser(args.mbox)
 	list = W3lists()
 	if args.user:
-		range = list.month_index_range(args.mbox)
 		(user, password) = args.user.split(':')
-		list.download_mbox(args.mbox, range, user, password)
+		min = list.month_index_min(args.mbox)
+		if min:
+			today = datetime.date.today()
+			lim = today.year * 12 + today.month
+			list.download_mbox(args.mbox, range(min, lim), user, password)
+		else:
+			info.Warning('Downloading mbox skipped: you need to have at least one mbox file to download')
 	if args.redir:
 		args.redir = os.path.expanduser(os.path.join(args.mbox, args.redir))
 		if os.path.exists(args.redir):

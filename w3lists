@@ -40,6 +40,8 @@ class W3lists(object):
 
 	def download_mbox(self, dir, month_index_range, user, password):
 		"""Download mbox files from W3C member server at https://lists.w3.org/Archives/Public/${list}/mboxes/${year}-${month}.mbx"""
+		if isinstance(month_index_range, int):
+			month_index_range = range(month_index_range, self.month_index_today())
 		auth_handler = urllib2.HTTPBasicAuthHandler()
 		auth_handler.add_password('W3CACL', 'https://lists.w3.org/', user, password)
 		opener = urllib2.build_opener(auth_handler)
@@ -54,6 +56,16 @@ class W3lists(object):
 	def mbox_filename_from_month_index(month_index):
 		return '%04d-%02d.mbx' % (month_index / 12, month_index % 12 + 1)
 
+	@staticmethod
+	def month_index_from_string(value):
+		(year, month) = (int(s) for s in value.split('-'))
+		return year * 12 + month - 1
+
+	@staticmethod
+	def month_index_today():
+		today = datetime.date.today()
+		return today.year * 12 + today.month
+
 	def month_index_min(self, dir):
 		"""Get the month_index of the oldest mbox file to download"""
 		files = glob.glob(os.path.join(dir, '*.mbx'))
@@ -62,6 +74,11 @@ class W3lists(object):
 		filename = last(sorted(os.path.splitext(os.path.basename(f))[0] for f in files))
 		(year, month) = (int(s) for s in filename.split('-'))
 		return year * 12 + month - 1
+
+	def load_mbox_since(self, dir, since, filter =None):
+		since = self.month_index_from_string(since)
+		for filename in (self.mbox_filename_from_month_index(i) for i in range(since, self.month_index_today())):
+			self.load_mbox(os.path.join(dir, filename), filter)
 
 	def load_mbox(self, path, filter =None):
 		path = os.path.expanduser(path)
@@ -387,6 +404,7 @@ def main():
 	parser.add_argument('--filter', '-f', action='append')
 	parser.add_argument('--mbox', '-m', default='~/Downloads')
 	parser.add_argument('--redir', '-r', default='redir.json')
+	parser.add_argument('--since', '-s')
 	parser.add_argument('--user', '-u',)
 	parser.add_argument('--verbose', '-v', action='append_const', const=1)
 #	parser.add_argument('url', nargs='*')
@@ -399,9 +417,7 @@ def main():
 		(user, password) = args.user.split(':')
 		min = list.month_index_min(args.mbox)
 		if min:
-			today = datetime.date.today()
-			lim = today.year * 12 + today.month
-			list.download_mbox(args.mbox, range(min, lim), user, password)
+			list.download_mbox(args.mbox, min, user, password)
 		else:
 			info.Warning('Downloading mbox skipped: you need to have at least one mbox file to download')
 	if args.redir:
@@ -417,7 +433,10 @@ def main():
 			filter = lambda m: f.search(m.subject)
 	else:
 		filter = None
-	list.load_mbox(args.mbox, filter)
+	if args.since:
+		list.load_mbox_since(args.mbox, args.since, filter)
+	else:
+		list.load_mbox(args.mbox, filter)
 	list.link_replies()
 	if args.redir:
 		list.save_urls(args.redir)

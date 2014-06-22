@@ -52,6 +52,21 @@ class W3lists(object):
 				with open(os.path.join(dir, filename), 'wb') as fp:
 					shutil.copyfileobj(rs, fp)
 
+	def month_index_range_to_download(self, dir, since):
+		files = glob.glob(os.path.join(dir, '*.mbx'))
+		existing = set(self.month_index_from_string(os.path.splitext(os.path.basename(f))[0]) for f in files)
+		if since:
+			min = self.month_index_from_string(since)
+		elif not files:
+			return None
+		else:
+			min = min(existing)
+		r = range(min, self.month_index_today())
+		if not files:
+			return r
+		existing.remove(max(existing)) # always re-download the latest one
+		return (i for i in r if i not in existing)
+
 	@staticmethod
 	def mbox_filename_from_month_index(month_index):
 		return '%04d-%02d.mbx' % (month_index / 12, month_index % 12 + 1)
@@ -65,15 +80,6 @@ class W3lists(object):
 	def month_index_today():
 		today = datetime.date.today()
 		return today.year * 12 + today.month
-
-	def month_index_min(self, dir):
-		"""Get the month_index of the oldest mbox file to download"""
-		files = glob.glob(os.path.join(dir, '*.mbx'))
-		if not files:
-			return None
-		filename = last(sorted(os.path.splitext(os.path.basename(f))[0] for f in files))
-		(year, month) = (int(s) for s in filename.split('-'))
-		return year * 12 + month - 1
 
 	def load_mbox_since(self, dir, since, filter =None):
 		since = self.month_index_from_string(since)
@@ -414,10 +420,10 @@ def main():
 	args.mbox = os.path.expanduser(args.mbox)
 	list = W3lists()
 	if args.user:
-		(user, password) = args.user.split(':')
-		min = list.month_index_min(args.mbox)
-		if min:
-			list.download_mbox(args.mbox, min, user, password)
+		r = list.month_index_range_to_download(args.mbox, args.since)
+		if r:
+			(user, password) = args.user.split(':')
+			list.download_mbox(args.mbox, r, user, password)
 		else:
 			info.Warning('Downloading mbox skipped: you need to have at least one mbox file to download')
 	if args.redir:

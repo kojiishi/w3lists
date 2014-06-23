@@ -274,7 +274,7 @@ class W3DoC(object):
 			issue.id = id
 			issue.from_name = m.from_display
 			issue.summary = m.subject
-			issue.thread.append(['Comment', m.archived_at, m])
+			issue.comments.append(W3DoC.Issue.Comment('Comment', m.archived_at, m))
 			logger.info('New issue %d: %s from %s', issue.id, issue.summary, issue.from_name)
 			self.issues.append(issue)
 
@@ -289,7 +289,7 @@ class W3DoC(object):
 			self.resolution = None
 			self.status = 'Open'
 			self.summary = None
-			self.thread = []
+			self.comments = []
 
 		def load(self, file):
 			line = file.readline()
@@ -308,10 +308,11 @@ class W3DoC(object):
 				elif key == 'From':
 					self.from_name = value
 				elif key == 'Comment' or key == 'Response':
-					self.thread.append([key, value, None])
+					self.comments.append(W3DoC.Issue.Comment(key, value))
 				elif key == 'Open' or key == 'Closed':
 					self.status = key
 					self.resolution = value
+					self.comments[-1].is_before_status = True
 				else:
 					raise Exception('Unknown key "%s" ignored' % key)
 			return True
@@ -327,30 +328,35 @@ class W3DoC(object):
 		def get_key_value_pairs(self):
 			yield ('Summary', self.summary)
 			yield ('From', self.from_name)
-			for t in self.thread:
-				yield (t[0], t[1])
-			yield (self.status, self.resolution)
+			is_status_yielded = False
+			for comment in self.comments:
+				yield (comment.type, comment.url)
+				if comment.is_before_status:
+					yield (self.status, self.resolution)
+					is_status_yielded = True
+			if not is_status_yielded and self.status:
+				yield (self.status, self.resolution)
 
 		def link_messages(self, list):
-			for t in self.thread:
-				m = list.message_by_url(t[1])
-				t[2] = m
-				if not m:
-					logger.warn('Issue %d: %s %s not loaded', self.id, t[0], t[1])
+			for comment in self.comments:
+				msg = list.message_by_url(comment.url)
+				comment.message = msg
+				if not msg:
+					logger.warn('Issue %d: %s %s not loaded', self.id, comment.type, comment.url)
 					continue
-				m.issues.append(self)
+				msg.issues.append(self)
 
 		def add_messages(self, list):
-			t = first(reversed(filter(lambda t: t[2], self.thread)))
-			if not t:
+			last_comment = last(c for c in self.comments if c.message)
+			if not last_comment:
 				logger.warn('Issue %d: No messages found' % self.id)
 				return
-			m = t[2]
+			msg = last_comment.message
 			replies = []
-			self._get_messages(m, replies)
+			self._get_messages(msg, replies)
 			for reply in sorted(replies, key=attrgetter('date')):
 				logger.info('Issue %d: add comment %s' % (self.id, reply.archived_at))
-				self.thread.append(['Comment', reply.archived_at, reply])
+				self.comments.append(W3DoC.Issue.Comment('Comment', reply.archived_at, reply))
 
 		def _get_messages(self, m, replies):
 			for reply in sorted(m.replies, key=attrgetter('date')):
@@ -359,6 +365,13 @@ class W3DoC(object):
 				logger.info('Issue %d: add comment %s' % (self.id, reply.archived_at))
 				replies.append(reply)
 				self._get_messages(reply, replies)
+
+		class Comment(object):
+			def __init__(self, type, url, message =None):
+				self.type = type
+				self.url = url
+				self.message = message
+				self.is_before_status = False
 
 def get_redirect_url(url):
 	try:

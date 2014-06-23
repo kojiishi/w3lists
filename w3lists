@@ -354,15 +354,23 @@ class W3DoC(object):
 				msg.issues.append(self)
 
 		def add_messages(self, list):
-			last_comment = last(c for c in self.comments if c.message)
-			if not last_comment:
-				logger.warn('Issue %d: No messages found' % self.id)
-				return
-			msg = last_comment.message
-			replies = self._get_messages(msg, [])
+			urls = set()
+			for comment in self.comments:
+				url = comment.url
+				urls.add(url)
+				url = list.normalized_url.get(url)
+				if url:
+					urls.add(url)
+			replies = []
+			for msg in (c.message for c in self.comments if c.message):
+				self._get_messages(msg, replies)
 			for reply in sorted(replies, key=attrgetter('date')):
-				logger.info('Issue %d: add comment %s' % (self.id, reply.archived_at))
-				self.comments.append(W3DoC.Issue.Comment('Comment', reply.archived_at, reply))
+				url = reply.archived_at
+				if url in urls:
+					continue
+				logger.info('Issue %d: add comment %s' % (self.id, url))
+				self.comments.append(W3DoC.Issue.Comment('Comment', url, reply))
+				urls.add(url)
 
 		def _get_messages(self, m, replies):
 			for reply in m.replies:

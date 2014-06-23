@@ -244,8 +244,8 @@ class W3DoC(object):
 					break
 				self.prologue.append(line)
 			while True:
-				issue = W3DoC.Issue()
-				if not issue.load(file):
+				issue = W3DoC.Issue.load(file)
+				if not issue:
 					break
 				self.issues.append(issue)
 
@@ -264,17 +264,12 @@ class W3DoC(object):
 			issue.link_messages(list)
 
 	def add_issues(self, list):
-		id = 0
+		id = None
 		for m in sorted(filter(lambda m: not m.in_reply_to and not m.issues, list.messages), key=attrgetter('date')):
-			issue = W3DoC.Issue()
-			if id != 0:
-				id += 1
-			else:
-				id = max(self.issues, key=lambda i: i.id).id + 1
-			issue.id = id
-			issue.from_name = m.from_display
-			issue.summary = m.subject
-			issue.comments.append(W3DoC.Issue.Comment('Comment', m.archived_at, m))
+			if not id:
+				id = max(self.issues, key=lambda i: i.id).id
+			id += 1
+			issue = W3DoC.Issue.from_message(id, m)
 			logger.info('New issue %d: %s from %s', issue.id, issue.summary, issue.from_name)
 			self.issues.append(issue)
 
@@ -291,41 +286,53 @@ class W3DoC(object):
 			self.summary = None
 			self.comments = []
 
-		def load(self, file):
+		@staticmethod
+		def from_message(id, message):
+			issue = W3DoC.Issue()
+			issue.id = id
+			issue.from_name = message.from_display
+			issue.summary = message.subject
+			issue.comments.append(W3DoC.Issue.Comment('Comment', message.archived_at, message))
+			message.issues.append(issue)
+			return issue
+
+		@staticmethod
+		def load(file):
 			line = file.readline()
 			if not line:
-				return False
+				return None
 			match = re.match(r'Issue (\d+)', line)
 			if not match:
 				raise Exception('Issue must start with an issue #')
-			self.id = int(match.group(1))
+			issue = W3DoC.Issue()
+			issue.id = int(match.group(1))
 			for line in file:
 				if line.startswith('---'):
 					break
 				(key, value) = re.split(r':\s*', line.strip(), 1)
 				if key == 'Summary':
-					self.summary = value
+					issue.summary = value
 				elif key == 'From':
-					self.from_name = value
+					issue.from_name = value
 				elif key == 'Comment' or key == 'Response':
-					self.comments.append(W3DoC.Issue.Comment(key, value))
+					issue.comments.append(W3DoC.Issue.Comment(key, value))
 				elif key == 'Open' or key == 'Closed':
-					self.status = key
-					self.resolution = value
-					self.comments[-1].is_before_status = True
+					issue.status = key
+					issue.resolution = value
+					issue.comments[-1].is_before_status = True
 				else:
 					raise Exception('Unknown key "%s" ignored' % key)
-			return True
+			return issue
 
 		def save(self, file):
 			file.write(u'----\nIssue %d.\n' % self.id)
-			for t in self.get_key_value_pairs():
+			for t in self.get_key_value_pairs_to_save():
 				if not t[1]:
 					file.write(unicode(t[0] + ':\n'))
 				else:
 					file.write(unicode((t[0] + ':').ljust(10) + t[1] + '\n'))
 
-		def get_key_value_pairs(self):
+		def get_key_value_pairs_to_save(self):
 			yield ('Summary', self.summary)
 			yield ('From', self.from_name)
 			is_status_yielded = False

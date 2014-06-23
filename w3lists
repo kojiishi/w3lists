@@ -36,7 +36,13 @@ class W3lists(object):
 			self._message_by_url = {}
 			for m in self.messages:
 				self._message_by_url[m.archived_at] = m
-		return self._message_by_url.get(url)
+		msg = self._message_by_url.get(url)
+		if msg:
+			return msg
+		url = self.normalized_url.get(url)
+		if url:
+			return self._message_by_url.get(url)
+		return None
 
 	def download_mbox(self, dir, month_index_range, user, password):
 		"""Download mbox files from W3C member server at https://lists.w3.org/Archives/Public/${list}/mboxes/${year}-${month}.mbx"""

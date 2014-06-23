@@ -359,12 +359,12 @@ class W3DoC(object):
 				logger.warn('Issue %d: No messages found' % self.id)
 				return
 			msg = last_comment.message
-			replies = self._get_messages(msg)
+			replies = self._get_messages(msg, [])
 			for reply in sorted(replies, key=attrgetter('date')):
 				logger.info('Issue %d: add comment %s' % (self.id, reply.archived_at))
 				self.comments.append(W3DoC.Issue.Comment('Comment', reply.archived_at, reply))
 
-		def _get_messages(self, m, replies =[]):
+		def _get_messages(self, m, replies):
 			for reply in m.replies:
 				if reply.issues: # do not include messages with assigned issues in case issues were branched
 					continue

@@ -364,6 +364,10 @@ class W3DoC(object):
 			replies = []
 			for msg in (c.message for c in self.comments if c.message):
 				self._get_messages(msg, replies)
+			if not replies:
+				return
+			max_date = max(c.message.date for c in self.comments if c.message)
+			replies = (r for r in replies if r.date > max_date)
 			for reply in sorted(replies, key=attrgetter('date')):
 				url = reply.archived_at
 				if url in urls:

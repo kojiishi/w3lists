@@ -274,8 +274,13 @@ class W3DoC(object):
 			self.issues.append(issue)
 
 	def add_messages(self, list):
+		# Only care new messages, so get the most recent date of messages we already processed
+		min_date = datetime.date.min
 		for issue in self.issues:
-			issue.add_messages(list)
+			for m in (c.message for c in issue.comments if c.message):
+				min_date = max(min_date, m.date)
+		for issue in self.issues:
+			issue.add_messages(list, lambda m: m.date > min_date)
 
 	class Issue(object):
 		def __init__(self):
@@ -314,7 +319,7 @@ class W3DoC(object):
 					issue.summary = value
 				elif key == 'From':
 					issue.from_name = value
-				elif key == 'Comment' or key == 'Response':
+				elif key == 'Comment' or key == 'Response' or key == 'Verified':
 					issue.comments.append(W3DoC.Issue.Comment(key, value))
 				elif key == 'Open' or key == 'Closed':
 					issue.status = key
@@ -353,7 +358,7 @@ class W3DoC(object):
 					continue
 				msg.issues.append(self)
 
-		def add_messages(self, list):
+		def add_messages(self, list, filter):
 			urls = set()
 			for comment in self.comments:
 				url = comment.url
@@ -366,8 +371,8 @@ class W3DoC(object):
 				self._get_messages(msg, replies)
 			if not replies:
 				return
-			max_date = max(c.message.date for c in self.comments if c.message)
-			replies = (r for r in replies if r.date > max_date)
+			if filter:
+				replies = (r for r in replies if filter(r))
 			for reply in sorted(replies, key=attrgetter('date')):
 				url = reply.archived_at
 				if url in urls:

@@ -275,7 +275,7 @@ class W3DoC(object):
 
 	def add_messages(self, list):
 		# Only care new messages, so get the most recent date of messages we already processed
-		min_date = datetime.date.min
+		min_date = datetime.datetime.min
 		for issue in self.issues:
 			for m in (c.message for c in issue.comments if c.message):
 				min_date = max(min_date, m.date)

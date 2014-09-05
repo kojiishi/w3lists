@@ -259,13 +259,22 @@ class W3DoC(object):
 		for issue in self.issues:
 			issue.save(file)
 
+	def min_date(self):
+		min_date = datetime.datetime.min
+		for issue in self.issues:
+			for m in (c.message for c in issue.comments if c.message):
+				min_date = max(min_date, m.date)
+		return min_date
+
 	def link_messages(self, list):
 		for issue in self.issues:
 			issue.link_messages(list)
 
-	def add_issues(self, list):
+	def add_issues(self, list, message_filter):
 		id = None
 		for m in sorted(filter(lambda m: not m.in_reply_to and not m.issues, list.messages), key=attrgetter('date')):
+			if message_filter and not message_filter(m):
+				continue
 			if not id:
 				id = max(self.issues, key=lambda i: i.id).id
 			id += 1
@@ -273,14 +282,9 @@ class W3DoC(object):
 			logger.info('New issue %d: %s from %s', issue.id, issue.summary, issue.from_name)
 			self.issues.append(issue)
 
-	def add_messages(self, list):
-		# Only care new messages, so get the most recent date of messages we already processed
-		min_date = datetime.datetime.min
+	def add_messages(self, list, message_filter):
 		for issue in self.issues:
-			for m in (c.message for c in issue.comments if c.message):
-				min_date = max(min_date, m.date)
-		for issue in self.issues:
-			issue.add_messages(list, lambda m: m.date > min_date)
+			issue.add_messages(list, message_filter)
 
 	class Issue(object):
 		def __init__(self):
@@ -299,7 +303,7 @@ class W3DoC(object):
 			issue.summary = message.subject
 			issue.comments.append(W3DoC.Issue.Comment('Summary', issue.summary))
 			issue.comments.append(W3DoC.Issue.Comment('From', issue.from_name))
-			issue.comments.append(W3DoC.Issue.Comment('Comment', None, message.archived_at, message))
+			issue.comments.append(W3DoC.Issue.Comment('Comment', message.archived_at, message))
 			message.issues.append(issue)
 			return issue
 
@@ -323,19 +327,16 @@ class W3DoC(object):
 					except ValueError:
 						key = ''
 						value = line
-					if key in ('', 'Comment', 'Note', 'Response', 'Resolved', 'Verified'):
-						issue.comments.append(W3DoC.Issue.Comment(key, None, value))
-					else:
-						if key == 'Summary':
-							issue.summary = value
-						elif key == 'From':
-							issue.from_name = value
-						elif key in ('Open', 'Closed'):
-							issue.status = key
-							issue.resolution = value
-						else:
-							raise Exception('Unknown key "%s" ignored' % key)
-						issue.comments.append(W3DoC.Issue.Comment(key, value))
+					if key == 'Summary':
+						issue.summary = value
+					elif key == 'From':
+						issue.from_name = value
+					elif key in ('Open', 'Closed'):
+						issue.status = key
+						issue.resolution = value
+					elif key not in ('', 'Comment', 'Note', 'Response', 'Resolved', 'Verified'):
+						raise Exception('Unknown key "%s" ignored' % key)
+					issue.comments.append(W3DoC.Issue.Comment(key, value))
 				except Exception as err:
 					raise Exception(err.message + '\n  in line: "' + line + '"\n')
 			return issue
@@ -359,6 +360,7 @@ class W3DoC(object):
 
 		def link_messages(self, list):
 			for comment in self.comments:
+				if not comment.url: continue
 				msg = list.message_by_url(comment.url)
 				comment.message = msg
 				if not msg:
@@ -380,30 +382,35 @@ class W3DoC(object):
 				self._get_messages(msg, replies)
 			if not replies:
 				return
-			if filter:
-				replies = (r for r in replies if filter(r))
 			for reply in sorted(replies, key=attrgetter('date')):
 				url = reply.archived_at
+				if filter and not filter(reply):
+					logger.info('Issue %d: skip comment %s %s' % (self.id, url, reply.date))
+					continue
 				if url in urls:
 					continue
-				logger.info('Issue %d: add comment %s' % (self.id, url))
-				self.comments.append(W3DoC.Issue.Comment('Comment', None, url, reply))
+				logger.info('Issue %d: add comment %s %s' % (self.id, url, reply.date))
+				self.comments.append(W3DoC.Issue.Comment('Comment', url, reply))
 				urls.add(url)
 
 		def _get_messages(self, m, replies):
 			for reply in m.replies:
 				if reply.issues: # do not include messages with assigned issues in case issues were branched
 					continue
-				logger.info('Issue %d: add comment %s' % (self.id, reply.archived_at))
+				logger.info('Issue %d: found reply %s' % (self.id, reply.archived_at))
 				replies.append(reply)
 				self._get_messages(reply, replies)
 			return replies
 
 		class Comment(object):
-			def __init__(self, type, value, url =None, message =None):
+			def __init__(self, type, value_or_url, message =None):
 				self.type = type
-				self.value = value
-				self.url = url
+				if message or value_or_url.startswith('http://'):
+					self.url = value_or_url
+					self.value = None
+				else:
+					self.value = value_or_url
+					self.url = None
 				self.message = message
 
 def get_redirect_url(url):
@@ -502,8 +509,12 @@ def main():
 		doc = W3DoC()
 		doc.load(args.doc)
 		doc.link_messages(list)
-		doc.add_issues(list)
-		doc.add_messages(list)
+		# Only care new messages, so get the most recent date of messages we already processed
+		min_date = doc.min_date()
+		logger.info('Skip if older than %s' % min_date)
+		filter = lambda m: m.date > min_date
+		doc.add_issues(list, filter)
+		doc.add_messages(list, filter)
 		doc.save(args.doc)
 	else:
 		list.dump_reply_tree(sys.stdout)

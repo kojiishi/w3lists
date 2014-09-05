@@ -297,7 +297,9 @@ class W3DoC(object):
 			issue.id = id
 			issue.from_name = message.from_display
 			issue.summary = message.subject
-			issue.comments.append(W3DoC.Issue.Comment('Comment', message.archived_at, message))
+			issue.comments.append(W3DoC.Issue.Comment('Summary', issue.summary))
+			issue.comments.append(W3DoC.Issue.Comment('From', issue.from_name))
+			issue.comments.append(W3DoC.Issue.Comment('Comment', None, message.archived_at, message))
 			message.issues.append(issue)
 			return issue
 
@@ -312,42 +314,48 @@ class W3DoC(object):
 			issue = W3DoC.Issue()
 			issue.id = int(match.group(1))
 			for line in file:
-				if line.startswith('---'):
-					break
-				(key, value) = re.split(r':\s*', line.strip(), 1)
-				if key == 'Summary':
-					issue.summary = value
-				elif key == 'From':
-					issue.from_name = value
-				elif key == 'Comment' or key == 'Response' or key == 'Verified':
-					issue.comments.append(W3DoC.Issue.Comment(key, value))
-				elif key == 'Open' or key == 'Closed':
-					issue.status = key
-					issue.resolution = value
-					issue.comments[-1].is_before_status = True
-				else:
-					raise Exception('Unknown key "%s" ignored' % key)
+				try:
+					if line.startswith('---'):
+						break
+					line = line.strip()
+					try:
+						(key, value) = re.split(r':\s*', line, 1)
+					except ValueError:
+						key = ''
+						value = line
+					if key in ('', 'Comment', 'Note', 'Response', 'Resolved', 'Verified'):
+						issue.comments.append(W3DoC.Issue.Comment(key, None, value))
+					else:
+						if key == 'Summary':
+							issue.summary = value
+						elif key == 'From':
+							issue.from_name = value
+						elif key in ('Open', 'Closed'):
+							issue.status = key
+							issue.resolution = value
+						else:
+							raise Exception('Unknown key "%s" ignored' % key)
+						issue.comments.append(W3DoC.Issue.Comment(key, value))
+				except Exception as err:
+					raise Exception(err.message + '\n  in line: "' + line + '"\n')
 			return issue
 
 		def save(self, file):
 			file.write(u'----\nIssue %d.\n' % self.id)
 			for t in self.get_key_value_pairs_to_save():
-				if not t[1]:
+				if not t[0]:
+					file.write(unicode(t[1] + '\n'))
+				elif not t[1]:
 					file.write(unicode(t[0] + ':\n'))
 				else:
 					file.write(unicode((t[0] + ':').ljust(10) + t[1] + '\n'))
 
 		def get_key_value_pairs_to_save(self):
-			yield ('Summary', self.summary)
-			yield ('From', self.from_name)
-			is_status_yielded = False
 			for comment in self.comments:
-				yield (comment.type, comment.url)
-				if comment.is_before_status:
-					yield (self.status, self.resolution)
-					is_status_yielded = True
-			if not is_status_yielded and self.status:
-				yield (self.status, self.resolution)
+				if comment.url:
+					yield (comment.type, comment.url)
+				else:
+					yield (comment.type, comment.value)
 
 		def link_messages(self, list):
 			for comment in self.comments:
@@ -362,6 +370,7 @@ class W3DoC(object):
 			urls = set()
 			for comment in self.comments:
 				url = comment.url
+				if not url: continue
 				urls.add(url)
 				url = list.normalized_url.get(url)
 				if url:
@@ -378,7 +387,7 @@ class W3DoC(object):
 				if url in urls:
 					continue
 				logger.info('Issue %d: add comment %s' % (self.id, url))
-				self.comments.append(W3DoC.Issue.Comment('Comment', url, reply))
+				self.comments.append(W3DoC.Issue.Comment('Comment', None, url, reply))
 				urls.add(url)
 
 		def _get_messages(self, m, replies):
@@ -391,11 +400,11 @@ class W3DoC(object):
 			return replies
 
 		class Comment(object):
-			def __init__(self, type, url, message =None):
+			def __init__(self, type, value, url =None, message =None):
 				self.type = type
+				self.value = value
 				self.url = url
 				self.message = message
-				self.is_before_status = False
 
 def get_redirect_url(url):
 	try:

@@ -352,11 +352,16 @@ class W3DoC(object):
 					file.write(unicode((t[0] + ':').ljust(10) + t[1] + '\n'))
 
 		def get_key_value_pairs_to_save(self):
+			has_status = False
 			for comment in self.comments:
 				if comment.url:
 					yield (comment.type, comment.url)
 				else:
 					yield (comment.type, comment.value)
+					if not has_status and comment.type in ('Open', 'Closed'):
+						has_status = True
+			if not has_status:
+				yield ('Open', None)
 
 		def link_messages(self, list):
 			for comment in self.comments:

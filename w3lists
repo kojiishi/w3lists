@@ -62,12 +62,12 @@ class W3lists(object):
 		files = glob.glob(os.path.join(dir, '*.mbx'))
 		existing = set(self.month_index_from_string(os.path.splitext(os.path.basename(f))[0]) for f in files)
 		if since:
-			min = self.month_index_from_string(since)
+			min_month_index = self.month_index_from_string(since)
 		elif not files:
 			return None
 		else:
-			min = min(existing)
-		r = range(min, self.month_index_today())
+			min_month_index = min(existing)
+		r = range(min_month_index, self.month_index_today())
 		if not files:
 			return r
 		existing.remove(max(existing)) # always re-download the latest one
